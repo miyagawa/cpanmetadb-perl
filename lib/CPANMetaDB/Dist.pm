@@ -68,7 +68,7 @@ sub fetch_packages {
 sub update_packages {
     my($self, $file) = @_;
 
-    warn "----> Extracting packages\n";
+    warn "----> Extracting packages from $file\n";
     IO::Uncompress::Gunzip::gunzip $file => \my $output;
 
     $output =~ /^Last-Updated: (.*)$/m
