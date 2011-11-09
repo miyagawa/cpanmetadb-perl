@@ -45,7 +45,7 @@ sub fetch_packages {
     my $file = "$self->{tmpdir}/02packages.details.$time.txt.gz";
     open my $fh, ">", $file;
 
-    warn "Start downloading $url\n";
+    warn "----> Start downloading $url\n";
 
     AnyEvent::HTTP::http_get $url,
         on_body => sub {
@@ -55,10 +55,12 @@ sub fetch_packages {
         sub {
             my (undef, $hdr) = @_;
             close $fh;
-            warn "Download complete!\n";
+            warn "----> Download complete!\n";
 
             if ($hdr->{Status} == 200) {
                 $self->update_packages($file);
+            } else {
+                warn "!!! Error: $hdr->{Status}\n";
             }
         };
 }
@@ -66,9 +68,11 @@ sub fetch_packages {
 sub update_packages {
     my($self, $file) = @_;
 
-    warn "Extracting packages from $file\n";
+    warn "----> Extracting packages\n";
     IO::Uncompress::Gunzip::gunzip $file => \my $output;
 
+    $output =~ /^Last-Updated: (.*)$/m
+        and warn "----> Last updated $1\n";
     $output =~ s/^.*\r?\n\r?\n//s;
 
     open my $in, "<", \$output;
@@ -80,7 +84,7 @@ sub update_packages {
         CPANMetaDB::Dist->update($pkg, { version => $version, distfile => $path });
     }
 
-    warn "Complete! Updated $count packages\n";
+    warn "----> Complete! Updated $count packages\n";
 
     unlink $file;
 }
