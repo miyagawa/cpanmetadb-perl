@@ -18,6 +18,7 @@ use AnyEvent;
 use AnyEvent::HTTP;
 use File::Temp;
 use IO::Uncompress::Gunzip;
+use HTTP::Date ();
 
 sub new {
     my $class = shift;
@@ -29,8 +30,9 @@ sub new {
 sub register {
     my $self = shift;
     $self->{tmpdir} = File::Temp::tempdir;
+    $self->{modified} = HTTP::Date::time2str(time - 600);
 
-    $self->{t} = AE::timer 0, 600, sub {
+    $self->{t} = AE::timer 0, 300, sub {
         $self->fetch_packages;
     };
 }
@@ -48,6 +50,9 @@ sub fetch_packages {
     warn "----> Start downloading $url\n";
 
     AnyEvent::HTTP::http_get $url,
+        headers => {
+            'If-Modified-Since' => $self->{modified},
+        },
         on_body => sub {
             my($data, $hdr) = @_;
             print $fh $data;
@@ -55,10 +60,13 @@ sub fetch_packages {
         sub {
             my (undef, $hdr) = @_;
             close $fh;
-            warn "----> Download complete!\n";
 
             if ($hdr->{Status} == 200) {
+                warn "----> Download complete!\n";
+                $self->{modified} = $hdr->{'Last-Modified'};
                 $self->update_packages($file);
+            } elsif ($hdr->{Status} == 302) {
+                warn "----> Not modified\n";
             } else {
                 warn "!!! Error: $hdr->{Status}\n";
             }
