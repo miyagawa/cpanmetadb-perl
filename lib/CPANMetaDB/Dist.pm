@@ -63,10 +63,10 @@ sub fetch_packages {
 
             if ($hdr->{Status} == 200) {
                 warn "----> Download complete!\n";
-                $self->{modified} = $hdr->{'Last-Modified'};
+                $self->{modified} = $hdr->{'last-modified'};
                 $self->update_packages($file);
             } elsif ($hdr->{Status} == 304) {
-                warn "----> Not modified\n";
+                warn "----> Not modified since $self->{modified}\n";
             } else {
                 warn "!!! Error: $hdr->{Status}\n";
             }
