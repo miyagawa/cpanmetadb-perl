@@ -30,7 +30,7 @@ sub register {
     my $self = shift;
     $self->{tmpdir} = File::Temp::tempdir;
 
-    $self->{t} = AE::timer 0, 3600, sub {
+    $self->{t} = AE::timer 0, 600, sub {
         $self->fetch_packages;
     };
 }
