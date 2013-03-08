@@ -15,6 +15,7 @@ my $head = sub {
 
 builder {
     enable $head;
+    enable 'ReverseProxy';
     mount 'http://sunaba.plackperl.org/' => sub {
         return [ 404, ['Content-Type', 'text/plain'], ['Not Found'] ];
     };
