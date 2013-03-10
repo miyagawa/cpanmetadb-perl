@@ -1,18 +1,23 @@
 #!/usr/bin/env perl
 use strict;
 
+sub versionify {
+    my $v = shift;
+    $v =~ /^5\.(\d{3})(\d{3})/
+      and return join '.', 5, $1+0, $2+0;
+}
+
 my %versions;
 
 while (<>) {
     my @line = split / /, $_;
     my $perl = $line[12];
-    if ($perl =~ /^perl\/5.(\d\d\d)(\d\d\d)"$/) {
-        my $ver = join ".", 5, $1+0, $2+0;
-        $versions{$ver}++;
+    if ($perl =~ /^perl\/(5\.\d{6})"$/) {
+        $versions{$1}++;
     }
 }
 
-my $js_data = join ",\n", map { "[ '$_', $versions{$_} ]" } sort keys %versions;
+my $js_data = join ",\n", map { "[ '@{[versionify($_)]}', $versions{$_} ]" } sort keys %versions;
 
 print <<HTML;
 <html>
