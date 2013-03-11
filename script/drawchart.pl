@@ -21,7 +21,7 @@ while (<>) {
 my $js_data = join ",\n", map { "[ '@{[versionify($_)]}', $versions{$_} ]" } sort keys %versions;
 
 my $time = Time::Piece->new;
-my $date = join "-", $time->year, $time->month, $time->day;
+my $date = $time->ymd;
 
 print <<HTML;
 <html>
