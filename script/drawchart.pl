@@ -48,7 +48,7 @@ print <<HTML;
     </head>
   <body>
     <div id="chart_div" style="width: 900px; height: 500px;"></div>
-    <p class="note">This graph is based on the sample requests sent to the <a href="http://cpanmetadb.plackperl.org/">CPAN Meta DB</a> from cpanm (version 1.604 or later).</p>
+    <p class="note">Updated on <span class="date">$date</span>. This graph is based on the sample requests sent to the <a href="http://cpanmetadb.plackperl.org/">CPAN Meta DB</a> from cpanm (version 1.6004 or later).</p>
   </body>
 </html>
 HTML
