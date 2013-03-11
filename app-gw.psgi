@@ -15,7 +15,10 @@ my $head = sub {
 
 builder {
     enable $head;
-    enable 'ReverseProxy';
+    enable sub {
+        my $app = shift;
+        sub { $_[0]->{REMOTE_ADDR} = $_[0]->{HTTP_FASTLY_CLIENT_IP}; $app->($_[0]) };
+    };
     mount 'http://sunaba.plackperl.org/' => sub {
         return [ 404, ['Content-Type', 'text/plain'], ['Not Found'] ];
     };
