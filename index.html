@@ -23,6 +23,16 @@ This is (yet another) CPAN metadata database that provides REST API for the CPAN
 <dd>Returns the latest distribution file path that contains the package and its version string ('undef' is a valid version string) in YAML format. Returns 404 status code if the package is not found.</dd>
 </dl>
 
+<h2>Notes</h2>
+
+<p>
+By using CPAN Meta DB through <a href="https://github.com/miyagawa/cpanminus">cpanm</a>, you're sending the version of cpanm installation, IP address as well as your local perl version (as of 1.6004 or later). You can opt it out by setting <code>--mirror-only</code> option to not use CPAN Meta DB for faster index resolution.
+</p>
+
+<p>
+The collected data is stored securely on the server, and used to make the service reliable (i.e. blacklisting DoS attacks) and for data mining purposes such as <a href="http://cpanmetadb.plackperl.org/static/versions/index.html">perl version stats</a>. Unmasked IP addresses are never published nor shared with third parties.
+</p>
+
 <div id="footer">
 This is yet another CPAN Meta DB, created by <a href="http://bulknews.typepad.com/">Tatsuhiko Miyagawa</a> for <a href="http://search.cpan.org/perldoc?App::cpanminus">cpanminus</a>.<br/>
 Powered by <a href="http://www.linode.com/?r=425f2f427ba816f7d4fad073885a0e6b6914ebca">Linode</a> and the source code is available on <a href="http://github.com/miyagawa/cpanmetadb-perl">github</a>.
