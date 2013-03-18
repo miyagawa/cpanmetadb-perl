@@ -1,0 +1,61 @@
+<html>
+    <head>
+      <title>Perl versions used with cpanm</title>
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+      <script src="https://raw.github.com/timrwood/moment/2.0.0/min/moment.min.js"></script>
+      <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+      <script type="text/javascript">
+      var newest_date;
+      var current_date;
+
+      google.load("visualization", "1", {packages:["corechart"]});
+      function drawChart(data) {
+        var data = google.visualization.arrayToDataTable(data);
+        var options = {
+          title: 'Perl versions used with cpanm'
+        };
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      };
+
+      $(function(){
+        $(".prev-date").click(function(){moveDate(-1)});
+        $(".next-date").click(function(){moveDate(+1)});
+        moveDate(0);
+      });
+
+      function callback(res) {
+        current_date = moment([res.date[0], res.date[1]-1, res.date[2]]);
+        if (!newest_date) newest_date = current_date.clone();
+        $(".current-date").text(res.date.join('-'));
+        drawChart(res.data);
+      }
+
+      function moveDate(offset) {
+        if (current_date) {
+          var new_date = current_date.clone().add('days', offset);
+          console.log(new_date, newest_date);
+          if (+new_date > +newest_date) {
+            alert("Statistics is not yet available for the specified date.");
+          } else if (+new_date < +moment([2013, 2, 11])) {
+            alert("Statistics is not available for the date older than March 11th, 2013.");
+          } else {
+            updateChart(new_date.format("YYYYMMDD"));
+          }
+        } else {
+          updateChart('current')
+        }
+      }
+
+      function updateChart(date) {
+        $('<script>').attr('src', "http://cpanmetadb.plackperl.org/static/versions/" + date + ".js").appendTo('body');
+      }
+    </script>
+    </head>
+  <body>
+    <h2>Perl versions with cpanm</h2>
+    <div class="date-picker"><a href="#" class="prev-date">&laquo;</a> <span class="current-date"></span> <a href="#" class="next-date">&raquo;</a></div>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+    <p class="note">This graph is based on the sample requests sent to the <a href="http://cpanmetadb.plackperl.org/">CPAN Meta DB</a> from cpanm (version 1.6004 or later).</p>
+  </body>
+</html>
