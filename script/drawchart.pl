@@ -8,18 +8,12 @@ sub versionify {
       and return join '.', 5, $1+0, $2+0;
 }
 
-sub probably_testers {
-    local $_ = shift;
-    return 1 if /^199\.91\.17[01]\./ or /^199\.182\.120\./; # Travis CI
-    return 0;
-}
-
 my(%uniq, %versions);
 
 while (<>) {
     my @line = split / /, $_;
-    my($ip, $perl) = @line[0, 12];
-    next if probably_testers($ip);
+    my($ip, $perl, $travis) = @line[0, 12, 13];
+    next if $travis =~ /travis/;
     if ($perl =~ /^perl\/(5\.\d{6})"$/) {
         $uniq{"$ip-$1"}++ or $versions{$1}++;
     }
