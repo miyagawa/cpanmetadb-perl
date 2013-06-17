@@ -1,1 +1,1 @@
-web: carton exec -- plackup -Ilib app-gw.psgi
+web: carton exec plackup -Mlib=lib app-gw.psgi
