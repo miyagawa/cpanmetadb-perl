@@ -1,0 +1,23 @@
+user             www-data;
+worker_processes 1;
+error_log        /var/log/nginx/error.log;
+pid              /var/run/nginx.pid;
+
+events {
+  worker_connections 1024;
+}
+
+http {
+  include      /etc/nginx/mime.types;
+  default_type application/octet-stream;
+
+  server {
+    listen       <%= node['nginx']['port'] %>;
+    server_name  localhost;
+    location / {
+      proxy_pass  http://localhost:5000/;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header Host $http_host;
+    }
+  }
+}
