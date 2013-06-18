@@ -8,6 +8,7 @@ set :repository,  "git://github.com/miyagawa/cpanmetadb-perl.git"
 
 set :scm, :git
 set :use_sudo, false
+set :deploy_via, :remote_cache
 
 # http://stackoverflow.com/questions/3023857/capistrano-and-deployment-of-a-website-from-github
 set :normalize_asset_timestamps, false
