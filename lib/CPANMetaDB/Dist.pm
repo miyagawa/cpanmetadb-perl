@@ -47,7 +47,7 @@ sub fetch_packages {
     my $file = "$self->{tmpdir}/02packages.details.$time.txt.gz";
     open my $fh, ">", $file;
 
-    warn "----> Start downloading $url\n";
+    warn "----> DEBUG Start downloading $url\n";
 
     AnyEvent::HTTP::http_get $url,
         headers => {
