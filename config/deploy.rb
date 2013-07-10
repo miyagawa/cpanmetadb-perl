@@ -7,7 +7,6 @@ set :application, "cpanmetadb"
 set :repository,  "git://github.com/miyagawa/cpanmetadb-perl.git"
 
 set :scm, :git
-set :use_sudo, false
 set :branch, ENV['BRANCH'] || "master"
 set :deploy_via, :remote_cache
 
