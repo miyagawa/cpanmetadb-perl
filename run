@@ -1,2 +1,0 @@
-#!/bin/sh
-exec sudo perl -Mlib=local/lib/perl5 local/bin/plackup -Ilib --port 80 --access-log access_log app-gw.psgi 2>> error_log
