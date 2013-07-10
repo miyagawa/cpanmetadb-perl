@@ -40,4 +40,8 @@ namespace :deploy do
   task :restart, :roles => :app do
     run "kill -HUP `cat #{shared_path}/pids/start_server.pid`"
   end
+
+  task :status, :roles => :app do
+    run "supervisorctl status #{application}"
+  end
 end
