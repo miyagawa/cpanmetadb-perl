@@ -1,7 +1,7 @@
 require 'capistrano/ext/multistage'
 
-set :stages, %w(vagrant)
-set :default_stage, "vagrant"
+set :stages, %w(production vagrant)
+set :default_stage, "production"
 
 set :application, "cpanmetadb"
 set :repository,  "git://github.com/miyagawa/cpanmetadb-perl.git"
