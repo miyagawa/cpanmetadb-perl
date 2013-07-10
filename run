@@ -7,7 +7,7 @@ cd $CURDIR
 
 export PERL_CARTON_PATH=$SHARED/local
 
-carton exec start_server --port=5000 \
+exec carton exec start_server --port=5000 \
   --status-file=$SHARED/pids/start_server.status \
   --pid-file=$SHARED/pids/start_server.pid \
   -- \
