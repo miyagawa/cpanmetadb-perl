@@ -24,8 +24,7 @@ end
 
 namespace :deploy do
   task :start, :roles => :app do
-    conf = "/etc/supervisor/conf.d/#{application}.conf"
-    run "test -e #{conf} || (cp #{current_path}/config/supervisor/#{application}.#{stage}.conf #{conf} && supervisorctl reread && supervisorctl add #{application})"
+    run "(supervisorctl status #{application} | grep RUNNING) || (cp #{current_path}/config/supervisor/#{application}.#{stage}.conf /etc/supervisor/conf.d/#{application}.conf && supervisorctl reread && supervisorctl add #{application})"
     run "supervisorctl start #{application}"
   end
 
