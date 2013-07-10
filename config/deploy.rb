@@ -25,7 +25,7 @@ end
 
 namespace :deploy do
   task :permissions do
-    run "chown #{runner} /u/apps/#{application}/shared"
+    run "chown #{runner} /u/apps/#{application}/shared/log /u/apps/#{application}/shared/pids"
   end
 
   task :start, :roles => :app do
