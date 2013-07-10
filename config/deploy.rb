@@ -15,6 +15,7 @@ set :deploy_via, :remote_cache
 set :normalize_asset_timestamps, false
 
 before "deploy:finalize_update", "carton:install"
+after "deploy:setup", "deploy:permissions"
 
 namespace :carton do
   task :install do
@@ -23,6 +24,10 @@ namespace :carton do
 end
 
 namespace :deploy do
+  task :permissions do
+    run "chown #{runner} /u/apps/#{application}/shared"
+  end
+
   task :start, :roles => :app do
     run "(supervisorctl status #{application} | grep RUNNING) || (cp #{current_path}/config/supervisor/#{application}.#{stage}.conf /etc/supervisor/conf.d/#{application}.conf && supervisorctl reread && supervisorctl add #{application})"
     run "supervisorctl start #{application}"

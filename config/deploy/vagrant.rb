@@ -1,5 +1,5 @@
 set :user, "root"
+set :runner, "vagrant"
 server "fidi", :app, :web
-set :deploy_to, "/home/vagrant/apps/cpanmetadb-perl"
 
 
