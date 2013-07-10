@@ -1,0 +1,13 @@
+#!/bin/bash
+
+CURDIR=`dirname $0`
+cd $CURDIR
+
+export PERL_CARTON_PATH=$CURDIR/shared/local
+
+carton exec start_server --port=5000 \
+  --status-file=$CURDIR/shared/pids/start_server.status \
+  --pid-file=$CURDIR/shared/pids/start_server.pid \
+  -- \
+  twiggy -I$CURDIR/lib --access-log=$CURDIR/shared/log/access_log \
+  $CURDIR/app-gw.psgi
