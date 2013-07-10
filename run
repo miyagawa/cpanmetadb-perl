@@ -1,13 +1,15 @@
 #!/bin/bash
 
 CURDIR=`dirname $0`
+SHARED=`dirname $CURDIR`/shared
+
 cd $CURDIR
 
-export PERL_CARTON_PATH=$CURDIR/shared/local
+export PERL_CARTON_PATH=$SHARED/local
 
 carton exec start_server --port=5000 \
-  --status-file=$CURDIR/shared/pids/start_server.status \
-  --pid-file=$CURDIR/shared/pids/start_server.pid \
+  --status-file=$SHARED/pids/start_server.status \
+  --pid-file=$SHARED/pids/start_server.pid \
   -- \
-  twiggy -I$CURDIR/lib --access-log=$CURDIR/shared/log/access_log \
+  twiggy -I$CURDIR/lib --access-log=$CURDIR/log/access_log \
   $CURDIR/app-gw.psgi
