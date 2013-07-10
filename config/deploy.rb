@@ -31,7 +31,7 @@ namespace :deploy do
   end
 
   def run_server
-    "#{server_starter} -- plackup -I#{current_path}/lib --access-log=#{shared_path}/log/access_log #{current_path}/app-gw.psgi > #{shared_path}/log/start_server.log 2>&1"
+    "#{server_starter} -- twiggy -I#{current_path}/lib --access-log=#{shared_path}/log/access_log #{current_path}/app-gw.psgi > #{shared_path}/log/start_server.log 2>&1"
   end
 
   def carton_env
