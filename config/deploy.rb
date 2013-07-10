@@ -38,6 +38,6 @@ namespace :deploy do
   end
 
   task :restart, :roles => :app do
-    run "kill -HUP `cat #{shared_path}/pids/server_status.pid`"
+    run "kill -HUP `cat #{shared_path}/pids/start_server.pid`"
   end
 end
