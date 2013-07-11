@@ -8,5 +8,5 @@ TMPFILE=/tmp/$DATE.$$.js
 
 tail -100000 log/access_log | carton exec script/drawchart.pl > $TMPFILE
 
-carton exec script/s3-upload.pl $TMPFILE stats/current.js application/javascript
-carton exec script/s3-upload.pl $TMPFILE stats/$DATE.js application/javascript
+carton exec script/s3-upload.pl stats/current.js $TMPFILE application/javascript
+carton exec script/s3-upload.pl stats/$DATE.js $TMPFILE application/javascript
