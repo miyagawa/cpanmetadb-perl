@@ -48,7 +48,12 @@
       }
 
       function updateChart(date) {
-        $('<script>').attr('src', "http://cpanmetadb.plackperl.org/stats/" + date + ".js").appendTo('body');
+        $.ajax({
+          url: "http://cpanmetadb.plackperl.org/stats/" + date + ".js",
+          dataType: "script",
+          cache: true,
+          success: function(){},
+        });
       }
     </script>
     </head>
