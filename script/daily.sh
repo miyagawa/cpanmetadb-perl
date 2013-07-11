@@ -1,6 +1,7 @@
 #!/bin/sh
 
 source /u/apps/cpanmetadb-perl/shared/.env
+export PERL_CARTON_PATH=/u/apps/cpanmetadb-perl/shared/local
 
 DATE=`date +%Y%m%d`
 TMPFILE=/tmp/$DATE.$$.js
