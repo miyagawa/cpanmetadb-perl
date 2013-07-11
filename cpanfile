@@ -8,6 +8,6 @@ requires 'Digest::SHA1';
 
 requires 'Proclet';
 requires 'Twiggy';
-requires 'Server::Starter';
+requires 'Server::Starter', 0.14;
 
 requires 'Amazon::S3';

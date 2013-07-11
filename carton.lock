@@ -7252,7 +7252,7 @@
          "version" : "0.20"
       },
       "Server::Starter" : {
-         "dist" : "Server-Starter-0.12",
+         "dist" : "Server-Starter-0.14",
          "mymeta" : {
             "abstract" : "a superdaemon for hot-deploying server programs",
             "author" : [
@@ -7278,7 +7278,7 @@
                "build" : {
                   "requires" : {
                      "ExtUtils::MakeMaker" : "6.42",
-                     "Test::TCP" : "0.11"
+                     "Test::TCP" : "2.00"
                   }
                },
                "configure" : {
@@ -7302,18 +7302,18 @@
                   "http://dev.perl.org/licenses/"
                ]
             },
-            "version" : "0.12"
+            "version" : "0.14"
          },
          "name" : "Server::Starter",
-         "pathname" : "K/KA/KAZUHO/Server-Starter-0.12.tar.gz",
+         "pathname" : "K/KA/KAZUHO/Server-Starter-0.14.tar.gz",
          "provides" : {
             "Server::Starter" : {
                "file" : "Server/Starter.pm",
-               "version" : "0.12"
+               "version" : "0.14"
             }
          },
          "target" : "Server::Starter",
-         "version" : "0.12"
+         "version" : "0.14"
       },
       "Stream::Buffered" : {
          "dist" : "Stream-Buffered-0.02",
