@@ -9,3 +9,5 @@ requires 'Digest::SHA1';
 requires 'Proclet';
 requires 'Twiggy';
 requires 'Server::Starter';
+
+requires 'Amazon::S3';
