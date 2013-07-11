@@ -7,7 +7,7 @@ my $updater = CPANMetaDB::Dist::Updater->new;
 
 my $app = Tatsumaki::Application->new([
     '/v1\.0/package/(.*)' => 'CPANMetaDB::PackageHandler',
-    '/versions' => 'CPANMetaDB::VersionsHandler',
+    '/versions/' => 'CPANMetaDB::VersionsHandler',
     '/' => 'CPANMetaDB::IndexHandler',
 ]);
 
