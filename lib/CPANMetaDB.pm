@@ -14,6 +14,19 @@ sub get {
     $self->finish($file);
 }
 
+package CPANMetaDB::VersionsHandler;
+use parent qw(Tatsumaki::Handler);
+
+sub get {
+    my $self = shift;
+    my $file = do {
+        open my $fh, "<", "static/versions/index.html";
+        join '', <$fh>;
+    };
+    $self->response->content_type('text/html; charset=utf-8');
+    $self->finish($file);
+}
+
 package CPANMetaDB::PackageHandler;
 use parent qw(Tatsumaki::Handler);
 use CPANMetaDB::Dist;

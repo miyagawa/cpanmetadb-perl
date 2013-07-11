@@ -44,5 +44,9 @@ builder {
     mount 'http://sunaba.plackperl.org/' => sub {
         return [ 404, ['Content-Type', 'text/plain'], ['Not Found'] ];
     };
+    mount '/static/versions/' => sub {
+        my $env = shift;
+        return [ 301, ['Location' => "http://$env->{HTTP_HOST}/versions/"], [] ];
+    };
     mount '/' => $app;
 };
