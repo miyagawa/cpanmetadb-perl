@@ -15,7 +15,12 @@ set :deploy_via, :remote_cache
 set :normalize_asset_timestamps, false
 
 before "deploy:finalize_update", "carton:install"
+before "deploy:finalize_update", :crontab_install
 after "deploy:setup", "deploy:permissions"
+
+task :crontab_install do
+  run "echo '0 1 * * * (cd #{current_path} && script/daily.sh)' | crontab -"
+end
 
 namespace :carton do
   task :install do
