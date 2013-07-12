@@ -15,12 +15,7 @@ set :deploy_via, :remote_cache
 set :normalize_asset_timestamps, false
 
 before "deploy:finalize_update", "carton:install"
-before "deploy:finalize_update", :crontab_install
 after "deploy:setup", "deploy:permissions"
-
-task :crontab_install do
-  run "echo 'PATH=/usr/local/bin:/usr/bin:/bin:$PATH\\n0 1 * * * (cd #{current_path} && script/daily.sh 2>>/tmp/cron.log)' | crontab -"
-end
 
 namespace :carton do
   task :install do
@@ -55,5 +50,15 @@ namespace :deploy do
 
   task :status, :roles => :app do
     run "supervisorctl status #{application}"
+  end
+
+  task :remove_ctontab, :roles => :app do
+    run "crontab -r; true"
+  end
+
+  task :install_crontab, :roles => :app do
+    crontab = ERB.new(IO.read("config/crontab.erb")).result
+    put crontab, "/tmp/crontab"
+    run "crontab /tmp/crontab && rm -f /tmp/crontab"
   end
 end

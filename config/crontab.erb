@@ -1,0 +1,8 @@
+# This crontab is automatically generated on deploy
+
+SHELL=/bin/bash
+PATH=/usr/local/bin:/usr/bin:/bin:$PATH
+LOG_FILE="<%= "#{current_path}/log/cron.log" %>"
+
+0 1 * * * (cd <%= current_path %> && script/daily.sh >> $LOG_FILE 2>&1)
+
