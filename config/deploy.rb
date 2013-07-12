@@ -32,7 +32,7 @@ namespace :deploy do
     run <<-EOC
       if ! supervisorctl status #{application} | grep RUNNING;
       then
-        cp #{current_path}/config/supervisor/#{application}.#{stag}.conf /etc/supervisor/conf.d/#{application}.conf;
+        cp #{current_path}/config/supervisor/#{application}.#{stage}.conf /etc/supervisor/conf.d/#{application}.conf;
         supervisorctl reread;
         supervisorctl add #{application};
       fi;
