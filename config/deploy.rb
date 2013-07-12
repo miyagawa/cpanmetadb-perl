@@ -57,7 +57,7 @@ namespace :deploy do
   end
 
   task :install_crontab, :roles => :app do
-    crontab = ERB.new(IO.read("config/crontab.erb")).result
+    crontab = ERB.new(IO.read("config/crontab.erb")).result(binding)
     put crontab, "/tmp/crontab"
     run "crontab /tmp/crontab && rm -f /tmp/crontab"
   end
