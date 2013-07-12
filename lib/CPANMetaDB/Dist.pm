@@ -3,9 +3,14 @@ use strict;
 
 my %dist;
 
+sub new {
+    my($class, $version, $distfile) = @_;
+    bless { version => $version, distfile => $distfile }, $class;
+}
+
 sub lookup {
     my($class, $pkg) = @_;
-    return $dist{$pkg};
+    return $dist{$pkg} ? $class->new(@{$dist{$pkg}}) : undef;
 }
 
 sub update {
@@ -89,7 +94,7 @@ sub update_packages {
         $count++;
         chomp;
         my($pkg, $version, $path) = split /\s+/, $_, 3;
-        CPANMetaDB::Dist->update($pkg, { version => $version, distfile => $path });
+        CPANMetaDB::Dist->update($pkg, [ $version, $path ]);
     }
 
     warn "----> Complete! Updated $count packages\n";
