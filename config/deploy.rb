@@ -19,12 +19,7 @@ before "deploy:finalize_update", :crontab_install
 after "deploy:setup", "deploy:permissions"
 
 task :crontab_install do
-  run <<-EOC
-    crontab - <<EOF
-    PATH=/usr/local/bin:$PATH
-    0 1 * * * (cd #{current_path} && script/daily.sh)
-    EOF
-  EOC
+  run "echo 'PATH=/usr/local/bin:$PATH\n0 1 * * * (cd #{current_path} && script/daily.sh)' | crontab -"
 end
 
 namespace :carton do
