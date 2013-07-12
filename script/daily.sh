@@ -1,5 +1,5 @@
 #!/bin/bash
-
+. /etc/profile
 . /u/apps/cpanmetadb-perl/shared/.env
 export PERL_CARTON_PATH=/u/apps/cpanmetadb-perl/shared/local
 
