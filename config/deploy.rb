@@ -29,8 +29,15 @@ namespace :deploy do
   end
 
   task :start, :roles => :app do
-    run "(supervisorctl status #{application} | grep RUNNING) || (cp #{current_path}/config/supervisor/#{application}.#{stage}.conf /etc/supervisor/conf.d/#{application}.conf && supervisorctl reread && supervisorctl add #{application})"
-    run "supervisorctl start #{application}"
+    run <<-EOC
+      if ! supervisorctl status #{application} | grep RUNNING;
+      then
+        cp #{current_path}/config/supervisor/#{application}.#{stag}.conf /etc/supervisor/conf.d/#{application}.conf;
+        supervisorctl reread;
+        supervisorctl add #{application};
+      fi;
+      supervisorctl start #{application}
+    EOC
   end
 
   task :stop, :roles => :app do
