@@ -82,19 +82,22 @@ sub update_packages {
     my($self, $file) = @_;
 
     warn "----> Extracting packages from $file\n";
-    IO::Uncompress::Gunzip::gunzip $file => \my $output;
+    my $z = IO::Uncompress::Gunzip->new($file);
 
-    $output =~ /^Last-Updated: (.*)$/m
-        and warn "----> Last updated $1\n";
-    $output =~ s/^.*\r?\n\r?\n//s;
-
-    open my $in, "<", \$output;
-    my $count;
-    while (<$in>) {
-        $count++;
+    my $in_body;
+    my $count = 0;
+    while (<$z>) {
         chomp;
-        my($pkg, $version, $path) = split /\s+/, $_, 3;
-        CPANMetaDB::Dist->update($pkg, [ $version, $path ]);
+        /^Last-Updated: (.*)/
+            and warn "----> Last updated $1\n";
+        if (/^$/) {
+            $in_body = 1;
+            next;
+        } elsif ($in_body) {
+            $count++;
+            my($pkg, $version, $path) = split /\s+/, $_, 3;
+            CPANMetaDB::Dist->update($pkg, [ $version, $path ]);
+        }
     }
 
     warn "----> Complete! Updated $count packages\n";
