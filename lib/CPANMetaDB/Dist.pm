@@ -1,7 +1,7 @@
 package CPANMetaDB::Dist;
 use strict;
 
-my %dist;
+my $index;
 
 sub new {
     my($class, $version, $distfile) = @_;
@@ -10,12 +10,36 @@ sub new {
 
 sub lookup {
     my($class, $pkg) = @_;
-    return $dist{$pkg} ? $class->new(@{$dist{$pkg}}) : undef;
+    if (my $record = $index->lookup($pkg)) {
+        $class->new(@$record);
+    } else {
+        return;
+    }
 }
 
-sub update {
-    my($class, $pkg, $data) = @_;
-    return $dist{$pkg} = $data;
+package CPANMetaDB::Dist::Index;
+use UnQLite;
+
+sub new {
+    my($class, $file) = @_;
+    bless {
+        db => UnQLite->open($file),
+    }, $class;
+}
+
+sub add {
+    my($self, $key, $value) = @_;
+    $self->{db}->kv_store($key, join "|", @$value);
+}
+
+sub lookup {
+    my($self, $key) = @_;
+    my $val = $self->{db}->kv_fetch($key);
+    if (defined $val) {
+        return [ split /\|/, $val, 2 ];
+    } else {
+        return;
+    }
 }
 
 package CPANMetaDB::Dist::Updater;
@@ -24,6 +48,7 @@ use AnyEvent::HTTP;
 use File::Temp;
 use IO::Uncompress::Gunzip;
 use HTTP::Date ();
+use Time::HiRes;
 
 sub new {
     my $class = shift;
@@ -81,6 +106,9 @@ sub fetch_packages {
 sub update_packages {
     my($self, $file) = @_;
 
+    my $time = Time::HiRes::gettimeofday;
+    my $new_index;
+
     warn "----> Extracting packages from $file\n";
     my $z = IO::Uncompress::Gunzip->new($file);
 
@@ -94,15 +122,20 @@ sub update_packages {
             $in_body = 1;
             next;
         } elsif ($in_body) {
+            $new_index = CPANMetaDB::Dist::Index->new("/tmp/cpanmetadb-$time.db")
+                if $count % 10000 == 0;
             $count++;
             my($pkg, $version, $path) = split /\s+/, $_, 3;
-            CPANMetaDB::Dist->update($pkg, [ $version, $path ]);
+            $new_index->add($pkg, [ $version, $path ]);
         }
     }
 
     warn "----> Complete! Updated $count packages\n";
 
     unlink $file;
+    undef $new_index;
+
+    $index = CPANMetaDB::Dist::Index->new("/tmp/cpanmetadb-$time.db");
 }
 
 1;
