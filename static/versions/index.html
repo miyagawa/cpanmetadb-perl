@@ -3,13 +3,29 @@
       <title>Perl versions used with cpanm</title>
       <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
       <script src="/static/moment.min.js"></script>
+      <script src="/static/perl-versions.js"></script>
       <script type="text/javascript" src="https://www.google.com/jsapi"></script>
       <script type="text/javascript">
       var newest_date;
       var current_date;
 
       google.load("visualization", "1", {packages:["corechart"]});
+
+      function fixupData(data) {
+        console.log(data);
+        var header = data.shift();
+        var versions = {};
+        data.forEach(function(row) { versions[row[0]] = row[1] });
+
+        perl_versions.forEach(function(row) {
+          row[1] = versions[row[0]] || 0;
+        });
+
+        return [ header ].concat(perl_versions);
+      }
+      
       function drawChart(data) {
+      console.log(data);
         var data = google.visualization.arrayToDataTable(data);
         var options = {
           title: 'Perl versions used with cpanm'
@@ -33,7 +49,7 @@
         current_date = moment([res.date[0], res.date[1]-1, res.date[2]]);
         if (!newest_date) newest_date = current_date.clone();
         $(".current-date").attr('href', '?date=' + current_date.format('YYYYMMDD')).text(res.date.join('-'));
-        drawChart(res.data);
+        drawChart(fixupData(res.data));
       }
 
       function moveDate(offset) {
