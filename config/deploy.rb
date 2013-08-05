@@ -52,7 +52,7 @@ namespace :deploy do
     run "supervisorctl status #{application}"
   end
 
-  task :remove_ctontab, :roles => :app do
+  task :remove_crontab, :roles => :app do
     run "crontab -r; true"
   end
 
