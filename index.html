@@ -24,9 +24,6 @@ This is (yet another) CPAN metadata database that provides REST API for the CPAN
 <dt><code>/v1.0/package/Package::Name</code><dt>
 <dd>Returns the latest distribution file path that contains the package and its version string ('undef' is a valid version string) in YAML format. Returns 404 status code if the package is not found. (<a href="/v1.0/package/Plack">Example</a>)</dd>
 
-<dt><code>/v1.0/dists/A/AU/AUTHOR/Dist-Name-version.packages.json</code><dt>
-<dd>Returns the packages and versions included in the specific distribution path, in JSON. Versions could be 'undef'. Returns 404 status code if the distirbution is not found. This information is pulled from <a href="https://github.com/batchpause/PAUSE-git">PAUSE history git repo</a> and is only available for distributions either a) uploaded later than 2012/03/31 or b) the snapshot of that date, which packages list might be incomplete. The data is updated every 2 hours. (<a href="/v1.0/dists/M/MI/MIYAGAWA/Plack-0.9989.packages.json">Example</a>)</dd>
-
 </dl>
 
 <h2 id="privacy">Notes</h2>
