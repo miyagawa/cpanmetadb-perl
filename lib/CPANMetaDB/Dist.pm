@@ -35,7 +35,7 @@ sub new {
 sub register {
     my $self = shift;
     $self->{tmpdir} = File::Temp::tempdir;
-    $self->{modified} = HTTP::Date::time2str(time - 600);
+    # $self->{modified} = HTTP::Date::time2str(time - 600);
 
     $self->{t} = AE::timer 0, 300, sub {
         $self->fetch_packages;
@@ -56,7 +56,7 @@ sub fetch_packages {
 
     AnyEvent::HTTP::http_get $url,
         headers => {
-            'If-Modified-Since' => $self->{modified},
+            $self->{modified} ? ('If-Modified-Since' => $self->{modified}) : (),
         },
         on_body => sub {
             my($data, $hdr) = @_;
