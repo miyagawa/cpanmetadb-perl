@@ -43,10 +43,10 @@ sub get {
     my $data = "---\ndistfile: $dist->{distfile}\nversion: $dist->{version}\n";
 
     $self->response->content_type('text/x-yaml');
-    $self->response->header('Surrogate-Control' => 'max-age=3600');
+    $self->response->header('Cache-Control' => 'max-age=1800');
+    $self->response->header('Surrogate-Control' => 'max-age=7200');
     $self->finish($data);
 }
-
 
 1;
 
