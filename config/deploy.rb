@@ -14,12 +14,12 @@ set :deploy_via, :remote_cache
 # http://stackoverflow.com/questions/3023857/capistrano-and-deployment-of-a-website-from-github
 set :normalize_asset_timestamps, false
 
-before "deploy:finalize_update", "carton:install"
+before "deploy:finalize_update", "carmel:install"
 after "deploy:setup", "deploy:permissions"
 
-namespace :carton do
+namespace :carmel do
   task :install do
-    run "cd #{latest_release} && carton install --deployment --path=#{shared_path}/local 2>&1"
+    run "cd #{latest_release} && carmel install 2>&1 && carmel rollout 2>&1"
   end
 end
 
