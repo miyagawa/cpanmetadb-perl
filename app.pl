@@ -4,7 +4,7 @@ use CPANMetaDB;
 use CPAN::Common::Index::LocalPackage;
 use Plack::App::File;
 
-my $cache_dir = $ENV{CACHE} || '.';
+my $cache_dir = $ENV{CACHE} || './cache';
 
 # make sure both source and cache .txt exists outside the web process
 # so that it won't get into the race condition on the search time

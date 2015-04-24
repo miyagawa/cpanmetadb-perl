@@ -3,5 +3,4 @@ MYMETA.*
 .vagrant
 /.env
 /.carmel/
-/packages.txt
-/02packages.details.txt*
+/cache
