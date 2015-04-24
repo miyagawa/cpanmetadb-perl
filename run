@@ -8,7 +8,7 @@ cd $CURDIR
 export CACHE=$SHARED/cache
 mkdir -p $CACHE
 
-exec carmel exec start_server --port=5000 \
+exec carmel exec start_server --port=${PORT:-5000} \
   --interval=5 \
   --dir=$CURDIR \
   --signal-on-hup=QUIT \
