@@ -39,8 +39,10 @@ my $munge_addr = sub {
 };
 
 builder {
+    enable 'Runtime';
     enable $head;
     enable $munge_addr;
+    enable 'ContentLength';
     mount 'http://sunaba.plackperl.org/' => sub {
         return [ 404, ['Content-Type', 'text/plain'], ['Not Found'] ];
     };

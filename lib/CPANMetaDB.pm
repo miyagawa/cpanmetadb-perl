@@ -29,18 +29,28 @@ sub get {
 
 package CPANMetaDB::PackageHandler;
 use parent qw(Tatsumaki::Handler);
-use CPANMetaDB::Dist;
+use CPAN::Common::Index::LocalPackage;
+
+# make sure the cache .txt exists outside the web process
+# so that it won't get into the race condition on the search time
+my $index = CPAN::Common::Index::LocalPackage->new({
+    source => "./02packages.details.txt.gz",
+    cache => "/tmp",
+});
 
 sub get {
     my($self, $package) = @_;
 
-    my $dist = CPANMetaDB::Dist->lookup($package);
-    unless ($dist) {
+    my $result = $index->search_packages({ package => $package });
+    unless ($result) {
         $self->response->code(404);
         return $self->finish('Not found');
     }
 
-    my $data = "---\ndistfile: $dist->{distfile}\nversion: $dist->{version}\n";
+    (my $distfile = $result->{uri}) =~ s!^cpan:.*distfile/!!;
+    $distfile = substr($distfile, 0, 1) . "/" . substr($distfile, 0, 2) . "/" . $distfile;
+
+    my $data = "---\ndistfile: $distfile\nversion: $result->{version}\n";
 
     $self->response->content_type('text/x-yaml');
     $self->response->header('Cache-Control' => 'max-age=1800');
