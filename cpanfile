@@ -8,3 +8,5 @@ requires 'Starman';
 requires 'Server::Starter', 0.14;
 
 requires 'Amazon::S3';
+requires 'CPAN::DistnameInfo';
+requires 'File::pushd';

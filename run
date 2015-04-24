@@ -5,12 +5,13 @@ SHARED=`dirname $CURDIR`/shared
 
 cd $CURDIR
 
-export PACKAGES_HISTORY_TXT=/var/www/cpanmetadb-data.plackperl.org/htdocs/packages.txt
+export CACHE=$SHARED/cache
+mkdir -p $CACHE
 
 exec carmel exec start_server --port=5000 \
   --dir=$CURDIR \
   --status-file=$SHARED/pids/start_server.status \
   --pid-file=$SHARED/pids/start_server.pid \
   -- \
-  twiggy -I$CURDIR/lib --access-log=$CURDIR/log/access_log \
+  starman -I$CURDIR/lib --preload-app --access-log=$CURDIR/log/access_log \
   $CURDIR/app-gw.psgi

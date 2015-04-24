@@ -3,6 +3,8 @@ use Mojolicious::Lite;
 
 use CPAN::Common::Index::LocalPackage;
 
+my $cache_dir = $ENV{CACHE} || '.';
+
 # static files
 get '/' => sub {
     my $c = shift;
@@ -14,15 +16,15 @@ get '/versions/' => sub {
     $c->reply->static('versions/index.html');
 };
 
-# make sure the cache .txt exists outside the web process
+# make sure both source and cache .txt exists outside the web process
 # so that it won't get into the race condition on the search time
 my $index = CPAN::Common::Index::LocalPackage->new({
-    source => "./02packages.details.txt.gz",
-    cache => "/tmp",
+    source => "$cache_dir/02packages.details.txt.gz",
+    cache => $cache_dir,
 });
 
 # Usually a no-op, but just in case the process boots when the cache doesn't exist
-$index->refresh_index;
+eval { $index->refresh_index };
 
 get '/v1.0/package/:package' => sub {
     my $self = shift;
@@ -50,7 +52,7 @@ get '/v1.0/history/:package' => sub {
 
     my $data = '';
 
-    open my $fh, '<', $ENV{PACKAGES_HISTORY_TXT} or die $!;
+    open my $fh, '<', "$cache_dir/packages.txt" or die $!;
     while (<$fh>) {
         if (/^$package\s/) {
             $data .= $_;

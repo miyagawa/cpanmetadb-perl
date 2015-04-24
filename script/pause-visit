@@ -1,0 +1,98 @@
+#!/usr/bin/env perl
+use strict;
+
+package Checkout;
+use File::pushd;
+
+sub new {
+    my($class, $dir) = @_;
+    bless { dir => $dir }, $class;
+}
+
+sub initial_commit {
+    my $self = shift;
+    $self->git("rev-list --max-parents=0 HEAD");
+}
+
+sub git {
+    my($self, $cmd) = @_;
+    my $out = `git --git-dir=$self->{dir}/.git --work-tree=. $cmd`;
+    chomp $out;
+    wantarray ? split(/\n/, $out) : $out;
+}
+
+sub git_cd {
+    my($self, $cmd) = @_;
+    my $dir = pushd $self->{dir};
+    my $out = `git $cmd`;
+}
+
+package main;
+use CPAN::DistnameInfo;
+use JSON;
+use Path::Tiny;
+use Getopt::Long;
+
+$| = 1; # non-buffering
+
+my $lock = Path::Tiny->new(".pause-visit.lock");
+mkdir $lock, 0777 or die "Lock directory ($lock) exists. Other process might be running.\n";
+
+my $clean = 1;
+END { rmdir $lock if $clean }
+
+my $outdir = Path::Tiny->cwd;
+GetOptions("o=s", sub { $outdir = Path::Tiny->new($_[1]) });
+$outdir->mkpath;
+
+my $fh = $outdir->child('packages.txt')->filehandle('>>');
+
+my $state = $outdir->child(".rev-state");
+$state->touch unless $state->exists;
+
+my $dir = shift or die "Usage: pause-visit PAUSE-git\n";
+my $checkout = Checkout->new($dir);
+$checkout->git_cd("pull origin master");
+
+my $initial;
+my $current = $state->slurp || do { $initial = 1; $checkout->initial_commit };
+
+if ($initial) {
+    warn "Initial run. Taking snapshot of 2012/03/31...\n";
+    my $text = $checkout->git("show $current:02packages.details.txt");
+    my $in_header = 1;
+
+    my %dists2pkgs;
+    for (split /\n/, $text) {
+        if (/^$/) {
+            $in_header = 0;
+        } elsif (!$in_header) {
+            print $fh $_, "\n";
+        }
+    }
+}
+
+for my $rev (reverse $checkout->git("log $current.. --format=%H")) {
+    warn "Examining $rev\n";
+    my $diff = $checkout->git("show $rev");
+
+    my %dists2pkgs;
+    my $in_package;
+    for (split /\r?\n/, $diff) {
+        if (m!^\+\+\+ b/02packages\.details\.txt!) {
+            $in_package = 1;
+            next;
+        } elsif (m!^\+\+\+ b/.*!) {
+            last;
+        }
+
+        if ($in_package) {
+            s/^\+// or next;
+            warn $_, "\n" if /^Last-Updated/;
+            next if /^(?:Line-Count|Last-Updated|Written-By)/;
+            print $fh $_, "\n";
+        }
+    }
+
+    $state->spew($rev);
+}
