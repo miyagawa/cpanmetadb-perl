@@ -15,5 +15,5 @@ exec carmel exec start_server --port=${PORT:-5000} \
   --status-file=$SHARED/pids/start_server.status \
   --pid-file=$SHARED/pids/start_server.pid \
   -- \
-  starman -I$CURDIR/lib --preload-app --access-log=$CURDIR/log/access_log \
+  carmel exec starman -I$CURDIR/lib --preload-app --access-log=$CURDIR/log/access_log \
   $CURDIR/app-gw.psgi
