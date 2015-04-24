@@ -23,7 +23,7 @@ for my $v (@versions) {
 $js =~ s/,\n$/\n/;
 $js .= "];\n";
 
-open my $out, ">", "static/perl-versions.js" or die $!;
+open my $out, ">", "public/perl-versions.js" or die $!;
 print $out $js;
 
 
