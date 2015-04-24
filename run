@@ -9,7 +9,9 @@ export CACHE=$SHARED/cache
 mkdir -p $CACHE
 
 exec carmel exec start_server --port=5000 \
+  --interval=5 \
   --dir=$CURDIR \
+  --signal-on-hup=QUIT \
   --status-file=$SHARED/pids/start_server.status \
   --pid-file=$SHARED/pids/start_server.pid \
   -- \
