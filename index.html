@@ -24,8 +24,10 @@ This is (yet another) CPAN metadata database that provides REST API for the CPAN
 <dt><code>/v1.0/package/Package::Name</code><dt>
 <dd>Returns the latest distribution file path that contains the package and its version string ('undef' is a valid version string) in YAML format. Returns 404 status code if the package is not found. (<a href="/v1.0/package/Plack">Example</a>)</dd>
 
+<!--
 <dt><code>/v1.0/history/Package::Name</code><dt>
 <dd>Returns the list of version and distfile containing the given package in PAUSE history since 2012/03/31, in text/plain format as you find in PAUSE's <code>02packages.details.txt</code>. Returns 404 if the package is not found. (<a href="/v1.0/history/Plack">Example</a>)</dd>
+-->
 
 </dl>
 
