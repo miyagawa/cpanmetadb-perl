@@ -1,20 +1,10 @@
 use strict;
-use Mojolicious::Lite;
 
+use CPANMetaDB;
 use CPAN::Common::Index::LocalPackage;
+use Plack::App::File;
 
 my $cache_dir = $ENV{CACHE} || '.';
-
-# static files
-get '/' => sub {
-    my $c = shift;
-    $c->reply->static('index.html');
-};
-
-get '/versions/' => sub {
-    my $c = shift;
-    $c->reply->static('versions/index.html');
-};
 
 # make sure both source and cache .txt exists outside the web process
 # so that it won't get into the race condition on the search time
@@ -26,29 +16,37 @@ my $index = CPAN::Common::Index::LocalPackage->new({
 # Usually a no-op, but just in case the process boots when the cache doesn't exist
 eval { $index->refresh_index };
 
+my $root = Plack::App::File->new(file => "public/index.html")->to_app;
+my $version = Plack::App::File->new(file => "public/versions/index.html")->to_app;
+
+get '/' => [ $root ];
+get '/versions/' => [ $version ];
+
 get '/v1.0/package/:package' => sub {
-    my $self = shift;
-    my $package = $self->param('package');
+    my($req, $params) = @_;
+    
+    my $package = $params->{package};
 
     my $result = $index->search_packages({ package => $package })
-      or return $self->render(text => "Not found\n", status => 404);
+      or return Plack::Response->new(404,  ["Content-Type" => "text/plain"], "Not found\n");
 
     (my $distfile = $result->{uri}) =~ s!^cpan:.*distfile/!!;
     $distfile = substr($distfile, 0, 1) . "/" . substr($distfile, 0, 2) . "/" . $distfile;
 
     my $data = "---\ndistfile: $distfile\nversion: $result->{version}\n";
 
-    $self->res->headers->content_type('text/yaml');
-    $self->res->headers->header('Cache-Control' => 'max-age=1800');
-    $self->res->headers->header('Surrogate-Control' => 'max-age=7200');
-
-    $self->render(text => $data);
+    my $res = Plack::Response->new(200);
+    $res->content_type('text/yaml');
+    $res->header('Cache-Control' => 'max-age=1800');
+    $res->header('Surrogate-Control' => 'max-age=7200');
+    $res->body($data);
+    $res;
 };
 
 get '/v1.0/history/:package' => sub {
-    my $self = shift;
+    my($req, $params) = @_;
 
-    my $package = $self->param('package');
+    my $package = $params->{package};
 
     my $data = '';
 
@@ -60,16 +58,21 @@ get '/v1.0/history/:package' => sub {
     }
 
     unless ($data) {
-        return $self->render(text => "Not found\n", status => 404);
+        return Plack::Response->new(404, ["Content-Type" => "text/palin"], "Not found\n");
     }
 
-    $self->res->headers->content_type('text/plain');
-    $self->res->headers->header('Cache-Control' => 'max-age=1800');
-    $self->res->headers->header('Surrogate-Control' => 'max-age=7200');
-
-    $self->render(text => $data);
+    my $res = Plack::Response->new(200);
+    $res->content_type('text/plain');
+    $res->header('Cache-Control' => 'max-age=1800');
+    $res->header('Surrogate-Control' => 'max-age=7200');
+    $res->body($data);
+    $res;
 };
 
-app->start;
+use Plack::Builder;
 
-
+builder {
+    enable "Static",
+      path => qr{\.(?:css|js|html)$}, root => 'public';
+    app;
+}

@@ -1,6 +1,7 @@
-requires 'Mojolicious', 6;
 requires 'Plack';
+requires 'Plack::Request';
 requires 'Plack::Middleware::ReverseProxy';
+requires 'Router::Simple';
 requires 'Digest::SHA1';
 requires 'CPAN::Common::Index';
 
