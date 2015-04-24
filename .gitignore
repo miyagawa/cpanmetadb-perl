@@ -1,3 +1,4 @@
 MYMETA.*
 /local/
 .vagrant
+/.env
