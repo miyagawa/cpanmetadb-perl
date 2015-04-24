@@ -9,7 +9,7 @@ mkdir -p $CACHE
 TS=`date +%s`
 
 (cd $CACHE && wget -q http://cpan.metacpan.org/modules/02packages.details.txt.gz -N)
-gzip -c $CACHE/02packages.details.txt.gz > $CACHE/02packages.details.txt.$TS
+gunzip -c $CACHE/02packages.details.txt.gz > $CACHE/02packages.details.txt.$TS
 ln -f $CACHE/02packages.details.txt.$TS $CACHE/02packages.details.txt
 rm $(ls $CACHE/02packages.details.txt.* | grep -Ev ".gz|.$TS")
 
