@@ -38,6 +38,9 @@ my $index = CPAN::Common::Index::LocalPackage->new({
     cache => "/tmp",
 });
 
+# Usually a no-op, but just in case the process boots when the cache doesn't exist
+$index->refresh_index;
+
 sub get {
     my($self, $package) = @_;
 
