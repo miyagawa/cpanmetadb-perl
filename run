@@ -6,6 +6,7 @@ SHARED=`dirname $CURDIR`/shared
 cd $CURDIR
 
 export PERL_CARTON_PATH=$SHARED/local
+export PACKAGES_HISTORY_TXT=/var/www/cpanmetadb-data.plackperl.org/htdocs/packages.txt
 
 exec carton exec start_server --port=5000 \
   --dir=$CURDIR \

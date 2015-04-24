@@ -48,5 +48,32 @@ sub get {
     $self->finish($data);
 }
 
+package CPANMetaDB::HistoryHandler;
+use parent qw(Tatsumaki::Handler);
+
+sub get {
+    my($self, $package) = @_;
+
+    my $data = '';
+
+    open my $fh, '<', $ENV{PACKAGES_HISTORY_TXT} or die $!;
+    while (<$fh>) {
+        if (/^$package\s/) {
+            $data .= $_;
+        }
+    }
+
+    unless ($data) {
+        $self->response->code(404);
+        return $self->finish('Not found');
+    }
+
+    $self->response->content_type('text/plain');
+    $self->response->header('Cache-Control' => 'max-age=1800');
+    $self->response->header('Surrogate-Control' => 'max-age=7200');
+
+    $self->finish($data);
+}
+
 1;
 
