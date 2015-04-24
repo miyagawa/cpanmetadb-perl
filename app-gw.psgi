@@ -16,7 +16,7 @@ sub maybe_travis {
     /^199\.91\.17[01]\./ or /^199\.182\.120\./; # Travis CI
 }
 
-my $app = do "./app.pl";
+my $app = require "./app.pl";
 
 my $head = sub {
     my $app = shift;

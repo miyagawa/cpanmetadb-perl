@@ -1,2 +1,2 @@
 use strict;
-my $app = do 'app.pl';
+my $app = require 'app.pl';
