@@ -20,4 +20,7 @@ cp $DOCS/packages.txt $CACHE/packages.txt.$TS
 ln -f $CACHE/packages.txt.$TS $CACHE/packages.txt
 rm $(ls $CACHE/packages.txt.* | grep -Ev ".$TS")
 
+DSN=dbi:SQLite:dbname=$CACHE/pause.sqlite3.$TS
 carmel exec script/dumpsql.pl
+ln -f $CACHE/pause.sqlite3.$TS $CACHE/pause.sqlite3
+rm $(ls $CACHE/pause.sqlite3.* | grep -Ev ".$TS")
