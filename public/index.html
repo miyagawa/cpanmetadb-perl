@@ -32,11 +32,11 @@ This is (yet another) CPAN metadata database that provides REST API for the CPAN
 <h2 id="privacy">Notes</h2>
 
 <p>
-By using CPAN Meta DB through <a href="https://github.com/miyagawa/cpanminus">cpanm</a>, you're sending names of a module you install, the version of cpanm and IP address to the server. The information also incluudes your local perl version if you use cpanm 1.6004 or later. You can opt it out by either setting <code>--mirror-only</code> option to avoid using this DB service, or by setting <code>--no-report-perl-version</code> since version 1.6008 to skip reporting your local perl version.
+By using CPAN Meta DB through <a href="https://github.com/miyagawa/cpanminus">cpanm</a>, you're sending names of modules you try to install, the version of cpanm and IP address to the server. The information also includes your local perl version if you use cpanm 1.6004 or later. You can opt it out by either setting <code>--mirror-only</code> option to avoid using this DB service, or by setting <code>--no-report-perl-version</code> since version 1.6008 to skip reporting your local perl version.
 </p>
 
 <p>
-The collected data is stored securely on the application server (after hashing the IP address to be anonymized). Our CDN provider <a href="http://www.fastly.com">Fastly</a> (<a href="http://www.fastly.com/terms">terms</a>) also has an access to the analytics. The data is used for making the service more reliable (e.g. blacklisting DoS attacks) and for data mining purposes such as <a href="http://cpanmetadb.plackperl.org/versions/">perl version stats</a>. Unmasked IP addresses are never stored, published nor shared with third parties (except Fastly, who serves the cached content in behalf of our servers).
+The collected data is stored securely on the application server after hashing the IP address to be anonymized. The data is used for making the service more reliable (e.g. blacklisting DoS attacks) and for data mining purposes such as <a href="http://cpanmetadb.plackperl.org/versions/">perl version stats</a>. Unmasked IP addresses are never stored, published nor shared with third parties, except <a href="http://www.fastly.com/">Fastly</a> (<a href="http://www.fastly.com/terms">terms</a>) who is our CDN partner and serves the cached content on behalf of our servers.
 </p>
 
 <div id="footer">
