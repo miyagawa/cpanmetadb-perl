@@ -70,32 +70,6 @@ get '/v1.1/package/:package' => sub {
     $res;
 };
 
-get '/v1.0/history/:package' => sub {
-    my($req, $params) = @_;
-
-    my $package = $params->{package};
-
-    my $data = '';
-
-    open my $fh, '<', "$cache_dir/packages.txt" or die $!;
-    while (<$fh>) {
-        if (/^$package\s/) {
-            $data .= $_;
-        }
-    }
-
-    unless ($data) {
-        return Plack::Response->new(404, ["Content-Type" => "text/palin"], "Not found\n");
-    }
-
-    my $res = Plack::Response->new(200);
-    $res->content_type('text/plain');
-    $res->header('Cache-Control' => 'max-age=1800');
-    $res->header('Surrogate-Control' => 'max-age=7200');
-    $res->body($data);
-    $res;
-};
-
 sub _format_line {
     my(@row) = @_;
 
@@ -110,7 +84,7 @@ sub _format_line {
     sprintf "%-${one}s %${two}s  %s\n", @row;
 }
 
-get '/v1.1/history/:package' => sub {
+get '/v1.0/history/:package' => sub {
     my($req, $params) = @_;
 
     my $package = $params->{package};
