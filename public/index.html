@@ -1,9 +1,9 @@
 <html>
 <head>
 <title>CPAN Meta DB</title>
-<link rel="stylesheet" href="http://miyagawa.github.com/screen.css" ?>
+<link rel="stylesheet" href="/screen.css">
 <style>
-body { font-size: 1.1em; padding: 1em }
+body { font-size: 1em; padding: 1em }
 .info { font-size: 0.9em }
 #footer { margin-top: 100px; font-size: 0.8em; text-align: center }
 dt { margin-top: 1em }
@@ -14,7 +14,7 @@ dt { margin-top: 1em }
 <h1>CPAN Meta DB</h1>
 
 <p class="info">
-This is (yet another) CPAN metadata database that provides REST API for the CPAN distributions, intended to be used by CPAN clients such as <a href="http://github.com/miyagawa/cpanminus">cpanminus</a>. Currently the only implemented endpoint is the resolver to get distribution file names from package names (a.k.a <code>02packages.details.txt.gz</code>) but there's a plan to implement more to extract information from <code>META.yml</code> etc. See also <a href="http://search.cpan.org/perldoc?CPANDB">CPANDB</a> and <a href="http://search.cpan.org/perldoc?App::CPANIDX">CPANIDX</a> for the similar works.
+This is (yet another) CPAN metadata database that provides REST API for the CPAN distributions, intended to be used by CPAN clients such as <a href="http://github.com/miyagawa/cpanminus">cpanminus</a>. See also <a href="https://github.com/CPAN-API/cpan-api/blob/master/docs/API-docs.md">MetaCPAN API</a>, <a href="http://search.cpan.org/perldoc?CPANDB">CPANDB</a> and <a href="http://search.cpan.org/perldoc?App::CPANIDX">CPANIDX</a> for the similar works.
 </p>
 
 <h2>APIs</h2>
@@ -32,16 +32,16 @@ This is (yet another) CPAN metadata database that provides REST API for the CPAN
 <h2 id="privacy">Notes</h2>
 
 <p>
-By using CPAN Meta DB through <a href="https://github.com/miyagawa/cpanminus">cpanm</a>, you're sending the module you're about to install, the version of cpanm installation, IP address as well as your local perl version (as of 1.6004 or later). You can opt it out by setting <code>--mirror-only</code> option to not use CPAN Meta DB for faster index resolution, or by using <code>--no-report-perl-version</code> since version 1.6008.
+By using CPAN Meta DB through <a href="https://github.com/miyagawa/cpanminus">cpanm</a>, you're sending names of a module you install, the version of cpanm and IP address to the server. The information also incluudes your local perl version if you use cpanm 1.6004 or later. You can opt it out by either setting <code>--mirror-only</code> option to avoid using this DB service, or by setting <code>--no-report-perl-version</code> since version 1.6008 to skip reporting your local perl version.
 </p>
 
 <p>
-The collected data is stored securely on the application server (by hashing the IP address to be anonymized) and our CDN provider <a href="http://www.fastly.com">fastly</a> (<a href="http://www.fastly.com/terms">terms</a>), and used to make the service more reliable (e.g. blacklisting DoS attacks) and for data mining purposes such as <a href="http://cpanmetadb.plackperl.org/versions/">perl version stats</a>. Unmasked IP addresses are never stored, published nor shared with third parties (besides Fastly, who serves the cached content in behalf of our servers).
+The collected data is stored securely on the application server (after hashing the IP address to be anonymized). Our CDN provider <a href="http://www.fastly.com">Fastly</a> (<a href="http://www.fastly.com/terms">terms</a>) also has an access to the analytics. The data is used for making the service more reliable (e.g. blacklisting DoS attacks) and for data mining purposes such as <a href="http://cpanmetadb.plackperl.org/versions/">perl version stats</a>. Unmasked IP addresses are never stored, published nor shared with third parties (except Fastly, who serves the cached content in behalf of our servers).
 </p>
 
 <div id="footer">
 This is yet another CPAN Meta DB, created by <a href="http://bulknews.typepad.com/">Tatsuhiko Miyagawa</a> for <a href="http://search.cpan.org/perldoc?App::cpanminus">cpanminus</a>.<br/>
-Powered by <a href="http://www.fastly.com/">fastly</a>, <a href="http://www.linode.com/?r=425f2f427ba816f7d4fad073885a0e6b6914ebca">Linode</a> and the source code is available on <a href="http://github.com/miyagawa/cpanmetadb-perl">github</a>.
+Powered by <a href="http://www.fastly.com/">Fastly</a>, <a href="http://www.linode.com/?r=425f2f427ba816f7d4fad073885a0e6b6914ebca">Linode</a> and the source code is available on <a href="http://github.com/miyagawa/cpanmetadb-perl">github</a>.
 </div>
 
 </div>
