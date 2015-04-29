@@ -24,7 +24,7 @@ my $version = Plack::App::File->new(file => "public/versions/index.html")->to_ap
 get '/' => [ $root ];
 get '/versions/' => [ $version ];
 
-get '/v1.0/package/:package' => sub {
+get '/v0.9/package/:package' => sub {
     my($req, $params) = @_;
     
     my $package = $params->{package};
@@ -45,7 +45,7 @@ get '/v1.0/package/:package' => sub {
     $res;
 };
 
-get '/v1.1/package/:package' => sub {
+get '/v1.0/package/:package' => sub {
     my($req, $params) = @_;
 
     my $package = $params->{package};
