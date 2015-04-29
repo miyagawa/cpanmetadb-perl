@@ -3,7 +3,7 @@ requires 'Plack::Request';
 requires 'Plack::Middleware::ReverseProxy';
 requires 'Router::Simple';
 requires 'Digest::SHA1';
-requires 'CPAN::Common::Index';
+requires 'CPAN::Common::Index', '0.006';
 
 requires 'DBI';
 requires 'DBD::SQLite';
