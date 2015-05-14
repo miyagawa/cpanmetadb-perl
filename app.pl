@@ -5,6 +5,7 @@ use CPAN::Common::Index::LocalPackage;
 use Plack::App::File;
 use DBI;
 use DBIx::Simple;
+use DBD::SQLite;
 
 my $cache_dir = $ENV{CACHE} || './cache';
 
