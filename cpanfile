@@ -1,4 +1,4 @@
-requires 'Plack';
+requires 'Plack', '1.0036';
 requires 'Plack::Request';
 requires 'Plack::Middleware::ReverseProxy';
 requires 'Router::Simple';
