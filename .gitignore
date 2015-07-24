@@ -4,3 +4,4 @@ MYMETA.*
 /.env
 /.carmel/
 /cache
+/t/cache

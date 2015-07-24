@@ -16,3 +16,7 @@ requires 'Net::Server::SS::PreFork';
 requires 'Amazon::S3';
 requires 'CPAN::DistnameInfo';
 requires 'File::pushd';
+
+on test => sub {
+    requires 'YAML';
+};
