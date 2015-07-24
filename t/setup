@@ -8,6 +8,4 @@ gunzip -c $CACHE/02packages.details.txt.gz > $CACHE/02packages.details.txt
 gunzip -c $CACHE/packages.txt.gz > $CACHE/packages.txt
 
 export DSN=dbi:SQLite:dbname=$CACHE/pause.sqlite3
-carmel exec script/dumpsql.pl
-
-
+script/dumpsql.pl
