@@ -1,10 +1,6 @@
 language: perl
 perl:
   - 5.16
-before_install:
-  - perlbrew install-cpanm -f && cpanm --dev Carmel
-install:
-  - carmel install
 script:
-  - carmel exec prove -lr t
+  - prove -lr t
 sudo: false
