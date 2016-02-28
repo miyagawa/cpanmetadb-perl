@@ -41,7 +41,7 @@ get '/v0.9/package/:package' => sub {
     my $res = Plack::Response->new(200);
     $res->content_type('text/yaml');
     $res->header('Cache-Control' => 'max-age=1800');
-    $res->header('Surrogate-Control' => 'max-age=7200');
+    $res->header('Surrogate-Control' => 'max-age=3600, stale-if-error=3600');
     $res->body($data);
     $res;
 };
@@ -66,7 +66,7 @@ get '/v1.0/package/:package' => sub {
     my $res = Plack::Response->new(200);
     $res->content_type('text/yaml');
     $res->header('Cache-Control' => 'max-age=1800');
-    $res->header('Surrogate-Control' => 'max-age=7200');
+    $res->header('Surrogate-Control' => 'max-age=3600, stale-if-error=3600');
     $res->body($data);
     $res;
 };
@@ -108,7 +108,7 @@ get '/v1.0/history/:package' => sub {
     my $res = Plack::Response->new(200);
     $res->content_type('text/plain');
     $res->header('Cache-Control' => 'max-age=1800');
-    $res->header('Surrogate-Control' => 'max-age=7200');
+    $res->header('Surrogate-Control' => 'max-age=3600, stale-if-error=3600');
     $res->body($data);
     $res;
 };
