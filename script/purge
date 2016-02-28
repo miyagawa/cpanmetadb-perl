@@ -3,7 +3,7 @@ use strict;
 
 while (<>) {
     chomp;
-    if (/^ -[\w\_:]+ \s+ \S+ \s+ ([A-Z]\/[A-Z]{2}\/.*) $/x) {
+    if (/^ -[\w\_:]+ \s+ \S+ \s+ ([A-Z]\/[A-Z]{2}\/\S*) $/x) {
         purge_key($1);
     }
 }
