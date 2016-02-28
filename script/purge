@@ -5,17 +5,9 @@ use CPAN::DistnameInfo;
 
 my %seen;
 
-while (<>) {
-    chomp;
-    if (/^ -[\w\_:]+ \s+ \S+ \s+ ([A-Z]\/[A-Z]{2}\/\S*) $/x) {
-        next if $seen{$1}++;
-        purge_key($1);
-        purge_key(CPAN::DistnameInfo->new($1)->dist);
-    }
-}
-
-sub purge_key {
+my $purger = sub {
     my $key = shift;
+    return if $seen{$key}++;
 
     warn "Purging by surrogate-key $key\n";
 
@@ -23,4 +15,12 @@ sub purge_key {
       '-H', "Fastly-Key: $ENV{FASTLY_KEY}",
       '-X', 'POST',
       "https://api.fastly.com/service/$ENV{FASTLY_SERVICE_ID}/purge/$key";
+};
+
+while (<>) {
+    chomp;
+    if (/^ -[\w\_:]+ \s+ \S+ \s+ ([A-Z]\/[A-Z]{2}\/\S*) $/x) {
+        $purger->($1);
+        $purger->(CPAN::DistnameInfo->new($1)->dist);
+    }
 }
