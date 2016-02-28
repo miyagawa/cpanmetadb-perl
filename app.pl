@@ -2,6 +2,7 @@ use strict;
 
 use CPANMetaDB;
 use CPAN::Common::Index::LocalPackage;
+use CPAN::DistnameInfo;
 use Plack::App::File;
 use DBI;
 use DBIx::Simple;
@@ -30,13 +31,14 @@ get '/v1.0/package/:package' => sub {
         return Plack::Response->new(404,  ["Content-Type" => "text/plain"], "Not found\n");
     }
 
+    my $dist = CPAN::DistnameInfo->new($result->{distfile})->dist;
     my $data = "---\ndistfile: $result->{distfile}\nversion: $result->{version}\n";
 
     my $res = Plack::Response->new(200);
     $res->content_type('text/yaml');
     $res->header('Cache-Control' => 'max-age=1800');
-    $res->header('Surrogate-Key' => "v1.0/package $package $result->{distfile}");
-    $res->header('Surrogate-Control' => 'max-age=3600, stale-if-error=3600');
+    $res->header('Surrogate-Key' => "v1.0/package $package $dist $result->{distfile}");
+    $res->header('Surrogate-Control' => 'max-age=86400, stale-if-error=3600');
     $res->body($data);
     $res;
 };

@@ -1,5 +1,7 @@
 #!/usr/bin/env perl
 use strict;
+use warnings;
+use CPAN::DistnameInfo;
 
 my %seen;
 
@@ -8,6 +10,7 @@ while (<>) {
     if (/^ -[\w\_:]+ \s+ \S+ \s+ ([A-Z]\/[A-Z]{2}\/\S*) $/x) {
         next if $seen{$1}++;
         purge_key($1);
+        purge_key(CPAN::DistnameInfo->new($1)->dist);
     }
 }
 

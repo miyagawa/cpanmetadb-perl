@@ -4,6 +4,7 @@ requires 'Plack::Middleware::ReverseProxy';
 requires 'Router::Simple';
 requires 'Digest::SHA1';
 requires 'CPAN::Common::Index', '0.006';
+requires 'CPAN::DistnameInfo';
 
 requires 'DBI';
 requires 'DBD::SQLite';
