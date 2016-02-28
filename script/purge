@@ -5,7 +5,7 @@ use CPAN::DistnameInfo;
 
 my %seen;
 
-my $purger = sub {
+my $surrogate_purge = sub {
     my $key = shift;
     return if $seen{$key}++;
 
@@ -17,10 +17,35 @@ my $purger = sub {
       "https://api.fastly.com/service/$ENV{FASTLY_SERVICE_ID}/purge/$key";
 };
 
+my $purge_url = sub {
+    my $url = shift;
+
+    warn "Purging by URL $url\n";
+
+    system 'curl', '-s', '-o', '/dev/null',
+      '-X', 'PURGE',
+      "http://cpanmetadb.plackperl.org$url";
+};
+
+my %added;
+my %removed;
+
 while (<>) {
     chomp;
-    if (/^ -[\w\_:]+ \s+ \S+ \s+ ([A-Z]\/[A-Z]{2}\/\S*) $/x) {
-        $purger->($1);
-        $purger->(CPAN::DistnameInfo->new($1)->dist);
+    if (/^ ([\-\+])([\w\_:]+) \s+ \S+ \s+ ([A-Z]\/[A-Z]{2}\/\S*) $/x) {
+        if ($1 eq '-') {
+            $removed{$2}++;
+        } else {
+            $added{$2}++;
+        }
+        $surrogate_purge->($3);
+        $surrogate_purge->(CPAN::DistnameInfo->new($3)->dist);
+    }
+}
+
+# purge new packages to bust out 404s
+for my $pkg (keys %added) {
+    unless (exists $removed{$pkg}) {
+        $purge_url->("/v1.0/package/$pkg");
     }
 }
