@@ -10,6 +10,7 @@ TS=`date +%s`
 
 (cd $CACHE && wget -q http://cpan.metacpan.org/modules/02packages.details.txt.gz -N)
 gunzip -c $CACHE/02packages.details.txt.gz > $CACHE/02packages.details.txt.$TS
+diff -u $CACHE/02packages.details.txt $CACHE/02packages.details.txt.$TS > $CACHE/02packages.diff.$TS
 ln -f $CACHE/02packages.details.txt.$TS $CACHE/02packages.details.txt
 rm $(ls $CACHE/02packages.details.txt.* | grep -Ev ".gz|.$TS")
 
@@ -24,3 +25,6 @@ export DSN=dbi:SQLite:dbname=$CACHE/pause.sqlite3.$TS
 carmel exec script/dumpsql.pl
 ln -f $CACHE/pause.sqlite3.$TS $CACHE/pause.sqlite3
 rm $(ls $CACHE/pause.sqlite3.* | grep -Ev ".$TS")
+
+
+
