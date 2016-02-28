@@ -25,6 +25,3 @@ export DSN=dbi:SQLite:dbname=$CACHE/pause.sqlite3.$TS
 carmel exec script/dumpsql.pl
 ln -f $CACHE/pause.sqlite3.$TS $CACHE/pause.sqlite3
 rm $(ls $CACHE/pause.sqlite3.* | grep -Ev ".$TS")
-
-
-
