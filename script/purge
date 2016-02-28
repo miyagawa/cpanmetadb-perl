@@ -1,9 +1,12 @@
 #!/usr/bin/env perl
 use strict;
 
+my %seen;
+
 while (<>) {
     chomp;
     if (/^ -[\w\_:]+ \s+ \S+ \s+ ([A-Z]\/[A-Z]{2}\/\S*) $/x) {
+        next if $seen{$1}++;
         purge_key($1);
     }
 }
