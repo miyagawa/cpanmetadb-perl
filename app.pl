@@ -67,7 +67,8 @@ get '/v1.0/history/:package' => sub {
 
     my $data = '';
 
-    for my $row ($res->arrays) {
+    my @rows = $res->arrays;
+    for my $row (@rows) {
         $data .= _format_line(@$row);
     }
 
@@ -77,8 +78,7 @@ get '/v1.0/history/:package' => sub {
         return Plack::Response->new(404, ["Content-Type" => "text/palin"], "Not found\n");
     }
 
-    my $latest = ($res->arrays)[-1];
-    my $distfile = $latest->[2];
+    my $distfile = $rows[-1][2];
     my $dist = CPAN::DistnameInfo->new($distfile)->dist;
 
     my $res = Plack::Response->new(200);
