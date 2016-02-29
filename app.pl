@@ -8,7 +8,7 @@ use DBI;
 use DBIx::Simple;
 use DBD::SQLite;
 
-my $ttl = 3600 * 24 * 30;
+my $ttl = 3600 * 24;
 my $cache_dir = $ENV{CACHE} || './cache';
 
 my $root = Plack::App::File->new(file => "public/index.html")->to_app;
