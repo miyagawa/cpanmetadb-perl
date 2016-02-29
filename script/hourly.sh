@@ -27,3 +27,4 @@ ln -f $CACHE/pause.sqlite3.$TS $CACHE/pause.sqlite3
 rm $(ls $CACHE/pause.sqlite3.* | grep -Ev ".$TS")
 
 carmel exec script/purge $CACHE/02packages.diff.$TS
+rm $CACHE/02packages.diff.*
