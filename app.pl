@@ -29,7 +29,11 @@ get '/v1.0/package/:package' => sub {
     $db->disconnect;
 
     unless ($result) {
-        return Plack::Response->new(404,  ["Content-Type" => "text/plain"], "Not found\n");
+        return Plack::Response->new(
+            404,
+            ["Content-Type" => "text/plain", "Surrogate-Control" => "max-age=$ttl"],
+            "Not found\n",
+        );
     }
 
     my $dist = CPAN::DistnameInfo->new($result->{distfile})->dist;
