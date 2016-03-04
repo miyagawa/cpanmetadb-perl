@@ -43,7 +43,7 @@ get '/v1.0/package/:package' => sub {
     $res->content_type('text/yaml');
     $res->header('Cache-Control' => 'max-age=1800');
     $res->header('Surrogate-Key' => "v1.0/package $package $dist $result->{distfile}");
-    $res->header('Surrogate-Control' => "max-age=$ttl, stale-if-error=3600, stale-while-revalidate=30");
+    $res->header('Surrogate-Control' => "max-age=$ttl, stale-if-error=10800, stale-while-revalidate=30");
     $res->body($data);
     $res;
 };
@@ -90,7 +90,7 @@ get '/v1.0/history/:package' => sub {
     $res->content_type('text/plain');
     $res->header('Cache-Control' => 'max-age=1800');
     $res->header('Surrogate-Key' => "v1.0/history $package $dist $distfile");
-    $res->header('Surrogate-Control' => "max-age=$ttl, stale-if-error=3600, stale-while-revalidate=30");
+    $res->header('Surrogate-Control' => "max-age=$ttl, stale-if-error=10800, stale-while-revalidate=30");
     $res->body($data);
     $res;
 };
