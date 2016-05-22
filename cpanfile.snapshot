@@ -444,10 +444,10 @@ DISTRIBUTIONS
       HTTP::Parser::XS 0.17
       HTTP::Parser::XS::PP undef
     requirements:
-  HTTP-Server-Simple-0.50
-    pathname: F/FA/FALCONE/HTTP-Server-Simple-0.50.tar.gz
+  HTTP-Server-Simple-0.51
+    pathname: B/BP/BPS/HTTP-Server-Simple-0.51.tar.gz
     provides:
-      HTTP::Server::Simple 0.50
+      HTTP::Server::Simple 0.51
       HTTP::Server::Simple::CGI undef
       HTTP::Server::Simple::CGI::Environment undef
     requirements:
@@ -527,8 +527,6 @@ DISTRIBUTIONS
       Net::Server::Log::Log::Log4perl undef
       Net::Server::Log::Sys::Syslog undef
       Net::Server::MultiType undef
-      Net::Server::Multiplex undef
-      Net::Server::Multiplex::MUX undef
       Net::Server::PSGI undef
       Net::Server::PreFork undef
       Net::Server::PreForkSimple undef
