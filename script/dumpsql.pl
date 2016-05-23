@@ -39,7 +39,8 @@ CREATE TABLE $name (
   distfile varchar(128)
 )
 SQL
-    $dbh->do("CREATE INDEX idx_$name ON $name(package)");
+    $dbh->do("CREATE INDEX idx_${name} ON $name(package)");
+    $dbh->do("CREATE INDEX idx_${name}_distfile ON $name(distfile)");
 
     my $insert = $dbh->prepare_cached("INSERT INTO $name VALUES (?, ?, ?)");
 

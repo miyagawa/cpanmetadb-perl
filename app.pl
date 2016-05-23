@@ -142,6 +142,46 @@ get '/v1.0/history/:package' => sub {
     $res;
 };
 
+get '/v1.0/provides/{distfile:.+}' => sub {
+    my($req, $params) = @_;
+
+    my $distfile = $params->{distfile};
+
+    my $db = DBIx::Simple->connect("dbi:SQLite:dbname=$cache_dir/pause.sqlite3");
+    my $res = $db->query("SELECT package,version FROM packages_history WHERE distfile=?", $distfile);
+
+    my @rows = $res->hashes;
+    $db->disconnect;
+
+    unless (@rows) {
+        return Plack::Response->new(
+            404,
+            ["Content-Type" => "text/plain", "Surrogate-Control" => "max-age=$ttl"],
+            "Not found\n",
+        );
+    }
+
+    my $data = {
+        distfile => $distfile,
+        provides => {},
+    };
+
+    for my $row (@rows) {
+        $data->{provides}{$row->{package}} = $row->{version};
+    }
+
+    my $dist = CPAN::DistnameInfo->new($distfile)->dist;
+
+    my $res = Plack::Response->new(200);
+    $res->content_type('text/plain');
+    $res->header('Cache-Control' => 'max-age=1800');
+    $res->header('Surrogate-Key' => "v1.0/provides $dist $distfile");
+    $res->header('Surrogate-Control' => "max-age=$ttl, stale-if-error=10800, stale-while-revalidate=30");
+    $res->body(YAML::Dump($data));
+    $res;
+};
+
+
 use Plack::Builder;
 
 builder {
