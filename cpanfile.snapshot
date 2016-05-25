@@ -370,22 +370,6 @@ DISTRIBUTIONS
       HTML::Tagset 3.20
     requirements:
       ExtUtils::MakeMaker 0
-  HTTP-Body-1.22
-    pathname: G/GE/GETTY/HTTP-Body-1.22.tar.gz
-    provides:
-      HTTP::Body 1.22
-      HTTP::Body::MultiPart 1.22
-      HTTP::Body::OctetStream 1.22
-      HTTP::Body::UrlEncoded 1.22
-      HTTP::Body::XForms 1.22
-      HTTP::Body::XFormsMultipart 1.22
-    requirements:
-      Carp 0
-      Digest::MD5 0
-      ExtUtils::MakeMaker 0
-      File::Temp 0.14
-      HTTP::Headers 0
-      IO::File 1.14
   HTTP-Cookies-6.01
     pathname: G/GA/GAAS/HTTP-Cookies-6.01.tar.gz
     provides:
@@ -421,6 +405,24 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Time::Local 0
       perl 5.006002
+  HTTP-Entity-Parser-0.17
+    pathname: K/KA/KAZEBURO/HTTP-Entity-Parser-0.17.tar.gz
+    provides:
+      HTTP::Entity::Parser 0.17
+      HTTP::Entity::Parser::JSON undef
+      HTTP::Entity::Parser::MultiPart undef
+      HTTP::Entity::Parser::OctetStream undef
+      HTTP::Entity::Parser::UrlEncoded undef
+    requirements:
+      Encode 0
+      File::Temp 0
+      HTTP::MultiPartParser 0
+      JSON 2
+      Module::Build 0.38
+      Module::Load 0
+      Stream::Buffered 0
+      WWW::Form::UrlEncoded 0.23
+      perl 5.008005
   HTTP-Headers-Fast-0.20
     pathname: T/TO/TOKUHIROM/HTTP-Headers-Fast-0.20.tar.gz
     provides:
@@ -461,6 +463,17 @@ DISTRIBUTIONS
       MIME::Base64 2.1
       MIME::QuotedPrint 0
       URI 1.10
+      perl 5.008001
+  HTTP-MultiPartParser-0.01
+    pathname: C/CH/CHANSEN/HTTP-MultiPartParser-0.01.tar.gz
+    provides:
+      HTTP::MultiPartParser 0.01
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 6.59
+      Scalar::Util 0
+      Test::Deep 0
+      Test::More 0.88
       perl 5.008001
   HTTP-Negotiate-6.01
     pathname: G/GA/GAAS/HTTP-Negotiate-6.01.tar.gz
@@ -529,6 +542,15 @@ DISTRIBUTIONS
       IO::Socket 0
       Socket 1.97
       Test::More 0.88
+  JSON-2.90
+    pathname: M/MA/MAKAMAKA/JSON-2.90.tar.gz
+    provides:
+      JSON 2.90
+      JSON::Backend::PP 2.90
+      JSON::Boolean 2.90
+    requirements:
+      ExtUtils::MakeMaker 0
+      Test::More 0
   LWP-MediaTypes-6.02
     pathname: G/GA/GAAS/LWP-MediaTypes-6.02.tar.gz
     provides:
@@ -636,12 +658,12 @@ DISTRIBUTIONS
       perl 5.008001
       strict 0
       warnings 0
-  Plack-1.0039
-    pathname: M/MI/MIYAGAWA/Plack-1.0039.tar.gz
+  Plack-1.0040
+    pathname: M/MI/MIYAGAWA/Plack-1.0040-TRIAL.tar.gz
     provides:
       HTTP::Message::PSGI undef
       HTTP::Server::PSGI undef
-      Plack 1.0039
+      Plack 1.0040
       Plack::App::CGIBin undef
       Plack::App::Cascade undef
       Plack::App::Directory undef
@@ -700,9 +722,9 @@ DISTRIBUTIONS
       Plack::Middleware::XFramework undef
       Plack::Middleware::XSendfile undef
       Plack::Recursive::ForwardRequest undef
-      Plack::Request 1.0039
+      Plack::Request 1.0040
       Plack::Request::Upload undef
-      Plack::Response 1.0039
+      Plack::Response 1.0040
       Plack::Runner undef
       Plack::TempBuffer undef
       Plack::Test undef
@@ -714,7 +736,7 @@ DISTRIBUTIONS
       Plack::Util::IOWithPath undef
       Plack::Util::Prototype undef
     requirements:
-      Apache::LogFormat::Compiler 0.12
+      Apache::LogFormat::Compiler 0.33
       Cookie::Baker 0.05
       Devel::StackTrace 1.23
       Devel::StackTrace::AsHTML 0.11
@@ -722,16 +744,17 @@ DISTRIBUTIONS
       File::ShareDir 1.00
       File::ShareDir::Install 0.06
       Filesys::Notify::Simple 0
-      HTTP::Body 1.06
+      HTTP::Entity::Parser 0.17
       HTTP::Headers::Fast 0.18
       HTTP::Message 5.814
       HTTP::Tiny 0.034
       Hash::MultiValue 0.05
       Pod::Usage 1.36
       Stream::Buffered 0.02
-      Test::TCP 2.00
+      Test::TCP 2.15
       Try::Tiny 0
       URI 1.59
+      WWW::Form::UrlEncoded 0.23
       parent 0
       perl 5.008001
   Plack-Middleware-ReverseProxy-0.15
@@ -921,6 +944,15 @@ DISTRIBUTIONS
       parent 0
       perl 5.008001
       utf8 0
+  WWW-Form-UrlEncoded-0.23
+    pathname: K/KA/KAZEBURO/WWW-Form-UrlEncoded-0.23.tar.gz
+    provides:
+      WWW::Form::UrlEncoded 0.23
+      WWW::Form::UrlEncoded::PP undef
+    requirements:
+      Exporter 0
+      Module::Build 0.38
+      perl 5.008001
   WWW-RobotRules-6.02
     pathname: G/GA/GAAS/WWW-RobotRules-6.02.tar.gz
     provides:
