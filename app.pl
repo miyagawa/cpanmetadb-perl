@@ -36,11 +36,12 @@ get '/v1.0/package/:package' => sub {
     my($result) = grep { $_->{package} eq $package } @results;
 
     unless ($result) {
-        return Plack::Response->new(
-            404,
-            ["Content-Type" => "text/plain", "Surrogate-Control" => "max-age=$ttl"],
-            "Not found\n",
-        );
+        my $res = Plack::Response->new(404);
+        $res->content_type('text/plain');
+        $res->header("Surrogate-Key" => "v1.0/package $package");
+        $res->header("Surrogate-Control" => "max-age=$ttl");
+        $res->body("Not found\n");
+        return $res;
     }
 
     my $dist = CPAN::DistnameInfo->new($result->{distfile})->dist;

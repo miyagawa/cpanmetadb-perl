@@ -17,16 +17,6 @@ my $surrogate_purge = sub {
       "https://api.fastly.com/service/$ENV{FASTLY_SERVICE_ID}/purge/$key";
 };
 
-my $purge_url = sub {
-    my $url = shift;
-
-    warn "Purging by URL $url\n";
-
-    system 'curl', '-s', '-o', '/dev/null',
-      '-X', 'PURGE',
-      "http://cpanmetadb.plackperl.org$url";
-};
-
 my %added;
 my %removed;
 
@@ -46,6 +36,6 @@ while (<>) {
 # purge new packages to bust out 404s
 for my $pkg (keys %added) {
     unless (exists $removed{$pkg}) {
-        $purge_url->("/v1.0/package/$pkg");
+        $surrogate_purge->($pkg);
     }
 }
