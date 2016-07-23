@@ -9,7 +9,7 @@ use DBIx::Simple;
 use DBD::SQLite;
 use YAML;
 
-my $ttl = 3600 * 24 * 3;
+my $base_ttl = 3600 * 24 * 3;
 my $cache_dir = $ENV{CACHE} || './cache';
 
 my $root = Plack::App::File->new(file => "public/index.html")->to_app;
@@ -20,6 +20,8 @@ get '/versions/' => [ $version ];
 
 get '/v1.0/package/:package' => sub {
     my($req, $params) = @_;
+
+    my $ttl = $base_ttl + int(rand(3600 * 24));
 
     my $package = $params->{package};
 
@@ -60,7 +62,7 @@ get '/v1.0/package/:package' => sub {
     $res->content_type('text/yaml');
     $res->header('Cache-Control' => 'max-age=1800');
     $res->header('Surrogate-Key' => "v1.0/package $package $dist $result->{distfile}");
-    $res->header('Surrogate-Control' => "max-age=$ttl, stale-if-error=10800, stale-while-revalidate=30");
+    $res->header('Surrogate-Control' => "max-age=$base_ttl, stale-if-error=10800, stale-while-revalidate=30");
     $res->body(YAML::Dump($data));
     $res;
 };
@@ -107,7 +109,7 @@ get '/v1.0/history/:package' => sub {
     $res->content_type('text/plain');
     $res->header('Cache-Control' => 'max-age=1800');
     $res->header('Surrogate-Key' => "v1.0/history $package $dist $distfile");
-    $res->header('Surrogate-Control' => "max-age=$ttl, stale-if-error=10800, stale-while-revalidate=30");
+    $res->header('Surrogate-Control' => "max-age=$base_ttl, stale-if-error=10800, stale-while-revalidate=30");
     $res->body($data);
     $res;
 };
