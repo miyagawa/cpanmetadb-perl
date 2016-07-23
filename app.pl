@@ -24,37 +24,6 @@ get '/v1.0/package/:package' => sub {
     my $package = $params->{package};
 
     my $db = DBIx::Simple->connect("dbi:SQLite:dbname=$cache_dir/pause.sqlite3");
-    my $res = $db->query("SELECT package,version,distfile FROM packages WHERE package=? LIMIT 1", $package);
-
-    my $result = $res->hash;
-    $db->disconnect;
-
-    unless ($result) {
-        return Plack::Response->new(
-            404,
-            ["Content-Type" => "text/plain", "Surrogate-Control" => "max-age=$ttl"],
-            "Not found\n",
-        );
-    }
-
-    my $dist = CPAN::DistnameInfo->new($result->{distfile})->dist;
-    my $data = "---\ndistfile: $result->{distfile}\nversion: $result->{version}\n";
-
-    my $res = Plack::Response->new(200);
-    $res->content_type('text/yaml');
-    $res->header('Cache-Control' => 'max-age=1800');
-    $res->header('Surrogate-Key' => "v1.0/package $package $dist $result->{distfile}");
-    $res->header('Surrogate-Control' => "max-age=$ttl, stale-if-error=10800, stale-while-revalidate=30");
-    $res->body($data);
-    $res;
-};
-
-get '/v1.1/package/:package' => sub {
-    my($req, $params) = @_;
-
-    my $package = $params->{package};
-
-    my $db = DBIx::Simple->connect("dbi:SQLite:dbname=$cache_dir/pause.sqlite3");
     my $res = $db->query(
         "SELECT package,version,distfile FROM packages WHERE distfile IN " .
         "(SELECT distfile FROM packages WHERE package=? LIMIT 1)",
@@ -89,7 +58,7 @@ get '/v1.1/package/:package' => sub {
     my $res = Plack::Response->new(200);
     $res->content_type('text/yaml');
     $res->header('Cache-Control' => 'max-age=1800');
-    $res->header('Surrogate-Key' => "v1.1/package $package $dist $result->{distfile}");
+    $res->header('Surrogate-Key' => "v1.0/package $package $dist $result->{distfile}");
     $res->header('Surrogate-Control' => "max-age=$ttl, stale-if-error=10800, stale-while-revalidate=30");
     $res->body(YAML::Dump($data));
     $res;
