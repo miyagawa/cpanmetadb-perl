@@ -99,7 +99,12 @@ get '/v1.0/history/:package' => sub {
     $db->disconnect;
 
     unless ($data) {
-        return Plack::Response->new(404, ["Content-Type" => "text/palin"], "Not found\n");
+        my $res = Plack::Response->new(404);
+        $res->content_type('text/plain');
+        $res->header('Surrogate-Key' => "v1.0/history $package");
+        $res->header('Surrogate-Control' => "max-age=$base_ttl, stale-if-error=10800, stale-while-revalidate=30");
+        $res->body("Not found\n");
+        return $res;
     }
 
     my $distfile = $rows[-1][2];
