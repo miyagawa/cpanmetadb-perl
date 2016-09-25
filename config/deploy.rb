@@ -19,7 +19,7 @@ after "deploy:setup", "deploy:permissions"
 
 namespace :carmel do
   task :install do
-    run "cd #{latest_release} && carmel install 2>&1 && carmel rollout 2>&1"
+    run "cd #{latest_release} && carmel install 2>&1 && carmel rollout 2>&1 && carmel exec perl -e1"
   end
 end
 
