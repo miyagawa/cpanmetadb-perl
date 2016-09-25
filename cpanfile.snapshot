@@ -107,6 +107,15 @@ DISTRIBUTIONS
       Module::Build 0.38
       URI::Escape 0
       perl 5.008001
+  Cookie-Baker-0.07
+    pathname: K/KA/KAZEBURO/Cookie-Baker-0.07.tar.gz
+    provides:
+      Cookie::Baker 0.07
+    requirements:
+      Exporter 0
+      Module::Build 0.38
+      URI::Escape 0
+      perl 5.008001
   DBD-SQLite-1.50
     pathname: I/IS/ISHIGAKI/DBD-SQLite-1.50.tar.gz
     provides:
@@ -658,12 +667,12 @@ DISTRIBUTIONS
       perl 5.008001
       strict 0
       warnings 0
-  Plack-1.0040
-    pathname: M/MI/MIYAGAWA/Plack-1.0040-TRIAL.tar.gz
+  Plack-1.0041
+    pathname: M/MI/MIYAGAWA/Plack-1.0041.tar.gz
     provides:
       HTTP::Message::PSGI undef
       HTTP::Server::PSGI undef
-      Plack 1.0040
+      Plack 1.0041
       Plack::App::CGIBin undef
       Plack::App::Cascade undef
       Plack::App::Directory undef
@@ -722,9 +731,9 @@ DISTRIBUTIONS
       Plack::Middleware::XFramework undef
       Plack::Middleware::XSendfile undef
       Plack::Recursive::ForwardRequest undef
-      Plack::Request 1.0040
+      Plack::Request 1.0041
       Plack::Request::Upload undef
-      Plack::Response 1.0040
+      Plack::Response 1.0041
       Plack::Runner undef
       Plack::TempBuffer undef
       Plack::Test undef
@@ -737,7 +746,7 @@ DISTRIBUTIONS
       Plack::Util::Prototype undef
     requirements:
       Apache::LogFormat::Compiler 0.33
-      Cookie::Baker 0.05
+      Cookie::Baker 0.07
       Devel::StackTrace 1.23
       Devel::StackTrace::AsHTML 0.11
       ExtUtils::MakeMaker 0
