@@ -4,7 +4,7 @@ perl:
 before_install:
   - perlbrew install-cpanm -f && cpanm --dev Carmel
 install:
-  - carmel install
+  - carmel install; carmel install
 script:
   - carmel exec prove -lr t
 sudo: false
