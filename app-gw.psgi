@@ -1,5 +1,5 @@
 use Plack::Builder;
-use Digest::SHA1 qw(sha1_hex);
+use Digest::SHA qw(sha1_hex);
 
 my $salt = int(rand(2**32));
 
