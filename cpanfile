@@ -9,7 +9,7 @@ requires 'DBI';
 requires 'DBD::SQLite';
 requires 'DBIx::Simple';
 
-requires 'Starman';
+requires 'Starman', 0.4015;
 requires 'Server::Starter', 0.14;
 requires 'Net::Server::SS::PreFork';
 
