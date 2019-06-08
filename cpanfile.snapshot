@@ -150,10 +150,10 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  Cookie-Baker-0.10
-    pathname: K/KA/KAZEBURO/Cookie-Baker-0.10.tar.gz
+  Cookie-Baker-0.11
+    pathname: K/KA/KAZEBURO/Cookie-Baker-0.11.tar.gz
     provides:
-      Cookie::Baker 0.10
+      Cookie::Baker 0.11
     requirements:
       Exporter 0
       Module::Build::Tiny 0.035
@@ -1287,10 +1287,10 @@ DISTRIBUTIONS
       strict 0
       utf8 0
       warnings 0
-  WWW-Form-UrlEncoded-0.25
-    pathname: K/KA/KAZEBURO/WWW-Form-UrlEncoded-0.25.tar.gz
+  WWW-Form-UrlEncoded-0.26
+    pathname: K/KA/KAZEBURO/WWW-Form-UrlEncoded-0.26.tar.gz
     provides:
-      WWW::Form::UrlEncoded 0.25
+      WWW::Form::UrlEncoded 0.26
       WWW::Form::UrlEncoded::PP undef
     requirements:
       Exporter 0
