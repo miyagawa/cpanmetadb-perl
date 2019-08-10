@@ -1030,15 +1030,6 @@ DISTRIBUTIONS
       Scalar::Util 0
       parent 0
       perl 5.008_001
-  Search-Dict-1.07
-    pathname: D/DA/DAGOLDEN/Search-Dict-1.07.tar.gz
-    provides:
-      Search::Dict 1.07
-    requirements:
-      Exporter 0
-      ExtUtils::MakeMaker 0
-      Test::More 0.47
-      Tie::Handle 0
   Server-Starter-0.34
     pathname: K/KA/KAZUHO/Server-Starter-0.34.tar.gz
     provides:
