@@ -1,10 +1,15 @@
-language: perl
-perl:
-  - 5.16
+language: minimal
+service: docker
+env:
+  - image=perl:5.16
 before_install:
-  - perlbrew install-cpanm -f && cpanm --dev -n Carmel
-install:
-  - carmel install; carmel install
+  - docker pull $image
+  - docker run $image perl -V
 script:
-  - carmel exec prove -lr t
-sudo: false
+  - |
+    docker run --init -it -v $PWD:/$TRAVIS_REPO_SLUG -w /$TRAVIS_REPO_SLUG $image bash -c '
+    set -euxo pipefail
+    cpanm -nq Carmel
+    carmel install
+    carmel exec prove -lr t
+    '
