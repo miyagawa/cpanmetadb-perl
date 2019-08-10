@@ -5,9 +5,6 @@ use File::Slurper qw(read_lines);
 my $salt = int(rand(2**32));
 my %travis_ip = map { $_ => 1 } read_lines("./travis-ip.txt");
 
-use Data::Dumper;
-warn Dumper \%travis_ip;
-
 sub almost_uniq_hash {
     my $ip = shift;
     $ip =~ s/(\d+)\.?/sprintf("%02x", $1)/ge;
