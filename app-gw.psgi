@@ -1,7 +1,12 @@
 use Plack::Builder;
 use Digest::SHA qw(sha1_hex);
+use File::Slurper qw(read_lines);
 
 my $salt = int(rand(2**32));
+my %travis_ip = map { $_ => 1 } read_lines("./travis-ip.txt");
+
+use Data::Dumper;
+warn Dumper \%travis_ip;
 
 sub almost_uniq_hash {
     my $ip = shift;
@@ -9,11 +14,6 @@ sub almost_uniq_hash {
 
     my $val = join "-", $ip, (hex($ip) % $salt);
     substr(sha1_hex($val), 0, 16);
-}
-
-sub maybe_travis {
-    local $_ = shift;
-    /^199\.91\.17[01]\./ or /^199\.182\.120\./; # Travis CI
 }
 
 my $app = require "./app.pl";
@@ -33,7 +33,7 @@ my $munge_addr = sub {
     my $app = shift;
     sub {
         $_[0]->{REMOTE_ADDR} = almost_uniq_hash($_[0]->{HTTP_FASTLY_CLIENT_IP});
-        $_[0]->{HTTP_USER_AGENT} .= " travis" if maybe_travis($_[0]->{HTTP_FASTLY_CLIENT_IP});
+        $_[0]->{HTTP_USER_AGENT} .= " travis" if $travis_ip{$_[0]->{HTTP_FASTLY_CLIENT_IP}};
         $app->($_[0]);
     };
 };

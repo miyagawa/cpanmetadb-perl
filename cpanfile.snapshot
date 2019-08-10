@@ -486,6 +486,20 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
+  File-Slurper-0.012
+    pathname: L/LE/LEONT/File-Slurper-0.012.tar.gz
+    provides:
+      File::Slurper 0.012
+    requirements:
+      Carp 0
+      Encode 2.11
+      Exporter 5.57
+      ExtUtils::MakeMaker 0
+      PerlIO::encoding 0
+      constant 0
+      perl 5.008
+      strict 0
+      warnings 0
   File-pushd-1.016
     pathname: D/DA/DAGOLDEN/File-pushd-1.016.tar.gz
     provides:
