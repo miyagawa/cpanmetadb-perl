@@ -8,7 +8,7 @@ mkdir -p $CACHE
 
 TS=`date +%s`
 
-(cd $CACHE && wget -q http://cpan.metacpan.org/modules/02packages.details.txt.gz -N)
+(cd $CACHE && wget -q http://www.cpan.org/modules/02packages.details.txt.gz -N)
 gunzip -c $CACHE/02packages.details.txt.gz > $CACHE/02packages.details.txt.$TS
 diff -u $CACHE/02packages.details.txt $CACHE/02packages.details.txt.$TS > $CACHE/02packages.diff.$TS
 ln -f $CACHE/02packages.details.txt.$TS $CACHE/02packages.details.txt
