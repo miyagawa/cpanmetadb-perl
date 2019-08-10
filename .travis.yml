@@ -1,6 +1,6 @@
 language: perl
 perl:
-  - 5.16
+  - "5.20"
 before_install:
   - perlbrew install-cpanm -f && cpanm --dev -n Carmel
 install:
