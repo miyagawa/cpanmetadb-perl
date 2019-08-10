@@ -1,0 +1,6 @@
+#!/bin/bash
+set -euxo pipefail
+
+cpanm -nq Carmel
+carmel install
+carmel exec prove -lr t

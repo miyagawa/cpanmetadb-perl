@@ -6,10 +6,4 @@ before_install:
   - docker pull $image
   - docker run $image perl -V
 script:
-  - |
-    docker run --init -it -v $PWD:/$TRAVIS_REPO_SLUG -w /$TRAVIS_REPO_SLUG $image bash -c '
-    set -euxo pipefail
-    cpanm -nq Carmel
-    carmel install
-    carmel exec prove -lr t
-    '
+  - docker run --init -it -v $PWD:/$TRAVIS_REPO_SLUG -w /$TRAVIS_REPO_SLUG $image ./test
