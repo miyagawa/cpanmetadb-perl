@@ -1,0 +1,14 @@
+name: linux
+
+on:
+  - push
+
+jobs:
+  perl:
+    runs-on: ubuntu-latest
+    container:
+      image: perl:5.16
+    steps:
+      - uses: actions/checkout@v1
+      - name: Run Tests
+        run: ./test
