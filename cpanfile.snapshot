@@ -607,6 +607,25 @@ DISTRIBUTIONS
       Stream::Buffered 0
       WWW::Form::UrlEncoded 0.23
       perl 5.008001
+  HTTP-Entity-Parser-0.25
+    pathname: K/KA/KAZEBURO/HTTP-Entity-Parser-0.25.tar.gz
+    provides:
+      HTTP::Entity::Parser 0.25
+      HTTP::Entity::Parser::JSON undef
+      HTTP::Entity::Parser::MultiPart undef
+      HTTP::Entity::Parser::OctetStream undef
+      HTTP::Entity::Parser::UrlEncoded undef
+    requirements:
+      Encode 0
+      File::Temp 0
+      HTTP::MultiPartParser 0
+      Hash::MultiValue 0
+      JSON::MaybeXS 1.003007
+      Module::Build::Tiny 0.035
+      Module::Load 0
+      Stream::Buffered 0
+      WWW::Form::UrlEncoded 0.23
+      perl 5.008001
   HTTP-Headers-Fast-0.22
     pathname: T/TO/TOKUHIROM/HTTP-Headers-Fast-0.22.tar.gz
     provides:
@@ -917,12 +936,12 @@ DISTRIBUTIONS
       POSIX 0
       Time::Local 0
       perl 5.008001
-  Plack-1.0047
-    pathname: M/MI/MIYAGAWA/Plack-1.0047.tar.gz
+  Plack-1.0048
+    pathname: M/MI/MIYAGAWA/Plack-1.0048.tar.gz
     provides:
       HTTP::Message::PSGI undef
       HTTP::Server::PSGI undef
-      Plack 1.0047
+      Plack 1.0048
       Plack::App::CGIBin undef
       Plack::App::Cascade undef
       Plack::App::Directory undef
@@ -981,9 +1000,9 @@ DISTRIBUTIONS
       Plack::Middleware::XFramework undef
       Plack::Middleware::XSendfile undef
       Plack::Recursive::ForwardRequest undef
-      Plack::Request 1.0047
+      Plack::Request 1.0048
       Plack::Request::Upload undef
-      Plack::Response 1.0047
+      Plack::Response 1.0048
       Plack::Runner undef
       Plack::TempBuffer undef
       Plack::Test undef
@@ -1003,7 +1022,7 @@ DISTRIBUTIONS
       File::ShareDir 1.00
       File::ShareDir::Install 0.06
       Filesys::Notify::Simple 0
-      HTTP::Entity::Parser 0.17
+      HTTP::Entity::Parser 0.25
       HTTP::Headers::Fast 0.18
       HTTP::Message 5.814
       HTTP::Tiny 0.034

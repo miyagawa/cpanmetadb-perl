@@ -1,4 +1,4 @@
-requires 'Plack', '1.0041';
+requires 'Plack', '1.0048';
 requires 'Plack::Request';
 requires 'Router::Simple';
 requires 'Digest::SHA';
